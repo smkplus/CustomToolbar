@@ -22,7 +22,7 @@ but you can easily Clear them by clicking on this button:
 
 ____________
 
-another button about saving is this button that prevent saving during the gameplay.because sometimes you have to Clear All playerprefs after each test so you can enable this toggle:
+another button relevant to saving is this button that prevents saving during the gameplay. because sometimes you have to Clear All playerprefs after each test so you can enable this toggle:
 
 Enable Playerprefs:
 
