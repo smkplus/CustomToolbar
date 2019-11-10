@@ -23,6 +23,7 @@ Enable Playerprefs:
 ![image](https://user-images.githubusercontent.com/16706911/68548261-2b3ab400-0400-11ea-8188-8ea0197f0f55.png)
 
 Disable Playerprefs:
+
 ![image](https://user-images.githubusercontent.com/16706911/68548270-4279a180-0400-11ea-9353-384c8984ffe0.png)
 
 
@@ -35,4 +36,26 @@ I usually test my games by changing timescale.
 you can restart the game by this button:
 
 ![image](https://user-images.githubusercontent.com/16706911/68548250-f3337100-03ff-11ea-8389-3ef267ea0a82.png)
+
+suppose you want to test your game so you should start game from scene 1:
+
+this is Level 1
+
+![image](https://user-images.githubusercontent.com/16706911/68548295-8371b600-0400-11ea-8737-a9da3d555df0.png)
+
+you have to find scene 1 (Menu):
+
+![image](https://user-images.githubusercontent.com/16706911/68548309-c2a00700-0400-11ea-9740-128368bd801a.png)
+
+then you should start the game:
+
+![image](https://user-images.githubusercontent.com/16706911/68548331-eebb8800-0400-11ea-9c22-6f28922e76ae.png)
+
+
+this button is shortcut to start the game from scene 1:
+
+![image](https://user-images.githubusercontent.com/16706911/68548336-0266ee80-0401-11ea-9043-980100848323.png)
+
+
+
 
