@@ -15,6 +15,7 @@ but you can easily Clear them by clicking on this button:
 
 ![image](https://user-images.githubusercontent.com/16706911/68548208-799b8300-03ff-11ea-8e97-3d119fa772b0.png)
 
+____________
 
 another button about saving is this button that prevent saving during the gameplay.because sometimes you have to Clear All playerprefs after each test so you can enable this toggle:
 
@@ -26,20 +27,22 @@ Disable Playerprefs:
 
 ![image](https://user-images.githubusercontent.com/16706911/68548270-4279a180-0400-11ea-9353-384c8984ffe0.png)
 
-
+____________
 
 I usually test my games by changing timescale.
 
 ![image](https://user-images.githubusercontent.com/16706911/68548224-b23b5c80-03ff-11ea-9c1f-a23208c8bcf6.png)
 
+____________
 
 you can restart the game by this button:
 
 ![image](https://user-images.githubusercontent.com/16706911/68548250-f3337100-03ff-11ea-8389-3ef267ea0a82.png)
 
-suppose you want to test your game so you should start game from scene 1:
 
-this is Level 1
+____________
+
+suppose you want to test your game so you should start game from scene 1(Menu):
 
 ![image](https://user-images.githubusercontent.com/16706911/68548295-8371b600-0400-11ea-8737-a9da3d555df0.png)
 
