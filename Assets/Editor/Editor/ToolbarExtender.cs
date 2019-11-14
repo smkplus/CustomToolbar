@@ -20,7 +20,8 @@ namespace UnityToolbarExtender
 			Type toolbarType = typeof(Editor).Assembly.GetType("UnityEditor.Toolbar");
 			FieldInfo toolIcons = toolbarType.GetField("s_ShownToolIcons",
 				BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static);
-			m_toolCount = toolIcons != null ? ((Array) toolIcons.GetValue(null)).Length : 6;
+			var array = ( Array ) toolIcons.GetValue( null );
+			m_toolCount = array != null ? array.Length : 6;
 
 			ToolbarCallback.OnToolbarGUI -= OnGUI;
 			ToolbarCallback.OnToolbarGUI += OnGUI;
