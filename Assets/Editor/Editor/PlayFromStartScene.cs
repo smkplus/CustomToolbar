@@ -58,7 +58,7 @@ namespace UnityToolbarExtender
                 PlayerPrefs.DeleteAll();
             }
 
-            if (GUILayout.Button(EditorGUIUtility.IconContent("LookDevSingle1@2x"), ToolbarStyles.commandButtonStyle))
+            if (GUILayout.Button(new GUIContent((Texture2D)AssetDatabase.LoadAssetAtPath("Assets/Editor/Icons/LookDevSingle1@2x.png", typeof(Texture2D))), ToolbarStyles.commandButtonStyle))
             {
                 if (!EditorApplication.isPlaying)
                 {
