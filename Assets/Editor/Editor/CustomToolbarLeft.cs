@@ -5,29 +5,12 @@ using UnityEditor.SceneManagement;
 
 namespace UnityToolbarExtender
 {
-    static class ToolbarStyles
-    {
-        public static readonly GUIStyle commandButtonStyle;
-
-        static ToolbarStyles()
-        {
-            commandButtonStyle = new GUIStyle("Command")
-            {
-                fontSize = 16,
-                alignment = TextAnchor.MiddleCenter,
-                imagePosition = ImagePosition.ImageAbove,
-                fontStyle = FontStyle.Bold
-            };
-        }
-    }
-    
-
     [InitializeOnLoad]
-    public class SceneSwitchLeftButton
+    public class CustomToolbarLeft
     {
         private static bool _deleteKeys;
 
-        static SceneSwitchLeftButton()
+        static CustomToolbarLeft()
         {
             ToolbarExtender.LeftToolbarGUI.Add(OnToolbarGUI);
             EditorApplication.playModeStateChanged += LogPlayModeState;
@@ -46,8 +29,6 @@ namespace UnityToolbarExtender
                 if (GUILayout.Button(EditorGUIUtility.IconContent("SaveActive"), ToolbarStyles.commandButtonStyle)) _deleteKeys = true;
             }
  
-
-            
             if (GUILayout.Button(EditorGUIUtility.IconContent("SaveFromPlay"), ToolbarStyles.commandButtonStyle))
             {
                 PlayerPrefs.DeleteAll();
@@ -69,8 +50,6 @@ namespace UnityToolbarExtender
 
                 EditorApplication.isPlaying = !EditorApplication.isPlaying;
             }
-            
-
         }
 
         private static void LogPlayModeState(PlayModeStateChange state)
