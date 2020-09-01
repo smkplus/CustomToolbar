@@ -30,9 +30,9 @@ namespace UnityToolbarExtender
 			saveActiveBtn = EditorGUIUtility.IconContent("SaveActive");
 			saveActiveBtn.tooltip = "Disable saving player prefs (currently saving)";
 
-			reloadSceneBtn = new GUIContent((Texture2D)AssetDatabase.LoadAssetAtPath("Assets/Plugins/CustomToolbar/Editor/Icons/LookDevResetEnv@2x.png", typeof(Texture2D)), "Reload scene");
+			reloadSceneBtn = new GUIContent((Texture2D)AssetDatabase.LoadAssetAtPath("Assets/Editor/Icons/LookDevResetEnv@2x.png", typeof(Texture2D)), "Reload scene");
 
-			startFromFirstSceneBtn = new GUIContent((Texture2D)AssetDatabase.LoadAssetAtPath("Assets/Plugins/CustomToolbar/Editor/Icons/LookDevSingle1@2x.png", typeof(Texture2D)), "Start from 1 scene");
+			startFromFirstSceneBtn = new GUIContent((Texture2D)AssetDatabase.LoadAssetAtPath("Assets/Editor/Icons/LookDevSingle1@2x.png", typeof(Texture2D)), "Start from 1 scene");
 		}
 
 		static void OnToolbarGUI() {
