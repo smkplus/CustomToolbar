@@ -44,7 +44,7 @@ namespace UnityToolbarExtender
                 if (!EditorApplication.isPlaying)
                 {
                     EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo();
-                    EditorPrefs.SetInt("LastActiveScene", EditorSceneManager.GetActiveScene().buildIndex);
+                    EditorPrefs.SetInt("LastActiveSceneToolbar", EditorSceneManager.GetActiveScene().buildIndex);
                     EditorSceneManager.OpenScene(SceneUtility.GetScenePathByBuildIndex(0));
                 }
 
@@ -54,11 +54,11 @@ namespace UnityToolbarExtender
 
         private static void LogPlayModeState(PlayModeStateChange state)
         {
-            if (state == PlayModeStateChange.EnteredEditMode && EditorPrefs.HasKey("LastActiveScene"))
+            if (state == PlayModeStateChange.EnteredEditMode && EditorPrefs.HasKey("LastActiveSceneToolbar"))
             {
                 EditorSceneManager.OpenScene(
-                    SceneUtility.GetScenePathByBuildIndex(EditorPrefs.GetInt("LastActiveScene")));
-                EditorPrefs.DeleteKey("LastActiveScene");
+                    SceneUtility.GetScenePathByBuildIndex(EditorPrefs.GetInt("LastActiveSceneToolbar")));
+                EditorPrefs.DeleteKey("LastActiveSceneToolbar");
             }
         }
     }
