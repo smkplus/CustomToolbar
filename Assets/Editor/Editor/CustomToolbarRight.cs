@@ -16,16 +16,7 @@ namespace UnityToolbarExtender
 
         static void OnToolbarGUI()
         {
-            EditorGUIUtility.SetIconSize(new Vector2(17,17));
-            if (GUILayout.Button(new GUIContent((Texture2D)AssetDatabase.LoadAssetAtPath("Assets/Editor/Icons/LookDevResetEnv@2x.png", typeof(Texture2D))), ToolbarStyles.commandButtonStyle))
-            {
-                if (EditorApplication.isPlaying)
-                {
-                    SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-                }
-            }
-            
-            Time.timeScale = EditorGUILayout.Slider("", Time.timeScale, 1, 20,GUILayout.Width(150));
+            Time.timeScale = EditorGUILayout.Slider("", Time.timeScale, 0f, 2f, GUILayout.Width(300));
         }
     }
 }
