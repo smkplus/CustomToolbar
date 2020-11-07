@@ -51,7 +51,7 @@ then you should start the game:
 
 this button is shortcut to start the game from scene 1:
 
-![image](btnFirstScene)
+![image](btnFirstScene.jpg)
 ____________
 
 I usually test my games by changing timescale.
