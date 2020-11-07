@@ -18,7 +18,7 @@ namespace UnityToolbarExtender
 		private static GUIContent reloadSceneBtn;
 		private static GUIContent startFromFirstSceneBtn;
 
-		static string[] scenesPopupDisplay;
+		static GUIContent[] scenesPopupDisplay;
 		static string[] scenesPath;
 		static string[] scenesBuildPath;
 		static int selectedSceneIndex;
@@ -55,6 +55,9 @@ namespace UnityToolbarExtender
 
 			DrawSavingPrefsButton();
 			DrawClearPrefsButton();
+
+			GUILayout.Space(20);
+
 			DrawReloadSceneButton();
 			DrawStartFromFirstSceneButton();
 		}
@@ -120,7 +123,7 @@ namespace UnityToolbarExtender
 			if (GUI.changed && 0 <= selectedSceneIndex && selectedSceneIndex < scenesPopupDisplay.Length) {
 				if (EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) {
 					foreach (var scenePath in scenesPath) {
-						if(GetSceneName(scenePath) == scenesPopupDisplay[selectedSceneIndex]) {
+						if(GetSceneName(scenePath) == scenesPopupDisplay[selectedSceneIndex].text) {
 							EditorSceneManager.OpenScene(scenePath);
 							break;
 						}
@@ -131,8 +134,7 @@ namespace UnityToolbarExtender
 		}
 
 		static void RefreshScenesList() {
-			List<string> toDisplay = new List<string>();
-			List<Scene> scenesList = new List<Scene>();
+			List<GUIContent> toDisplay = new List<GUIContent>();
 
 			selectedSceneIndex = -1;
 			
@@ -153,7 +155,9 @@ namespace UnityToolbarExtender
 				if (selectedSceneIndex == -1 && GetSceneName(name) == activeScene.name)
 					selectedSceneIndex = i;
 
-				toDisplay.Add(name);
+				GUIContent content = new GUIContent(name, EditorGUIUtility.Load("BuildSettings.Editor.Small") as Texture, "Open scene");
+
+				toDisplay.Add(content);
 			}
 
 			for (int i = 0; i < scenesPath.Length; ++i) {
@@ -165,7 +169,9 @@ namespace UnityToolbarExtender
 				if (selectedSceneIndex == -1 && name == activeScene.name)
 					selectedSceneIndex = usedIds;
 
-				toDisplay.Add(name);
+				GUIContent content = new GUIContent(name, "Open scene");
+
+				toDisplay.Add(content);
 
 				++usedIds;
 			}
