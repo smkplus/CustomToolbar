@@ -18,10 +18,10 @@ namespace UnityToolbarExtender
 		private static GUIContent reloadSceneBtn;
 		private static GUIContent startFromFirstSceneBtn;
 
-		static List<SceneInfo> _scenes;
-		static SceneInfo _sceneOpened;
-		static int _selectedIndex;
-		static string[] _displayedOptions;
+		static string[] scenesPopupDisplay;
+		static string[] scenesPath;
+		static string[] scenesBuildPath;
+		static int selectedSceneIndex;
 
 		static CustomToolbarLeft() {
 			ToolbarExtender.LeftToolbarGUI.Add(OnToolbarGUI);
@@ -42,33 +42,21 @@ namespace UnityToolbarExtender
 
 			startFromFirstSceneBtn = new GUIContent((Texture2D)AssetDatabase.LoadAssetAtPath("Assets/Editor/Icons/LookDevSingle1@2x.png", typeof(Texture2D)), "Start from 1 scene");
 
-			LoadFromPlayerPrefs();
+			RefreshScenesList();
 			EditorSceneManager.sceneOpened += HandleSceneOpened;
 		}
 
 		static void OnToolbarGUI() {
 			GUILayout.FlexibleSpace();
 
+			DrawSceneDropdown();
+
+			GUILayout.Space(20);
+
 			DrawSavingPrefsButton();
 			DrawClearPrefsButton();
 			DrawReloadSceneButton();
 			DrawStartFromFirstSceneButton();
-
-			GUILayout.FlexibleSpace();
-
-			_selectedIndex = EditorGUILayout.Popup(_selectedIndex, _displayedOptions); ;
-
-			GUI.enabled = _selectedIndex == 0;
-			if (GUILayout.Button("+"))
-				AddScene(_sceneOpened);
-
-			GUI.enabled = _selectedIndex > 0;
-			if (GUILayout.Button("-"))
-				RemoveScene(_sceneOpened);
-
-			GUI.enabled = true;
-			if (GUI.changed && _selectedIndex > 0 && _scenes.Count > _selectedIndex - 1)
-				EditorSceneManager.OpenScene(_scenes[_selectedIndex - 1].Path);
 		}
 
 		private static void LogPlayModeState(PlayModeStateChange state) {
@@ -126,101 +114,77 @@ namespace UnityToolbarExtender
 			}
 		}
 
-		static void RefreshDisplayedOptions() {
-			_displayedOptions = new string[_scenes.Count + 1];
-			_displayedOptions[0] = "Click on '+' to add current scene";
+		private static void DrawSceneDropdown() {
+			selectedSceneIndex = EditorGUILayout.Popup(selectedSceneIndex, scenesPopupDisplay, GUILayout.Width(150f));
 
-			for (int i = 0; i < _scenes.Count; i++)
-				_displayedOptions[i + 1] = _scenes[i].Name;
-		}
-
-		static void HandleSceneOpened(Scene scene, OpenSceneMode mode) => SetOpenedScene(scene);
-
-		static void SetOpenedScene(SceneInfo scene) {
-			if (scene == null || string.IsNullOrEmpty(scene.Path))
-				return;
-
-			for (int i = 0; i < _scenes.Count; i++) {
-				if (_scenes[i].Path == scene.Path) {
-					_sceneOpened = _scenes[i];
-					_selectedIndex = i + 1;
-					SaveToPlayerPrefs(true);
-					return;
+			if (GUI.changed && 0 <= selectedSceneIndex && selectedSceneIndex < scenesPopupDisplay.Length) {
+				if (EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) {
+					foreach (var scenePath in scenesPath) {
+						if(GetSceneName(scenePath) == scenesPopupDisplay[selectedSceneIndex]) {
+							EditorSceneManager.OpenScene(scenePath);
+							break;
+						}
+					}
 				}
 			}
 
-			_sceneOpened = scene;
-			_selectedIndex = 0;
-			SaveToPlayerPrefs(true);
 		}
 
-		static void SetOpenedScene(Scene scene) => SetOpenedScene(new SceneInfo(scene));
+		static void RefreshScenesList() {
+			List<string> toDisplay = new List<string>();
+			List<Scene> scenesList = new List<Scene>();
 
-		static void AddScene(SceneInfo scene) {
-			if (scene == null)
-				return;
+			selectedSceneIndex = -1;
+			
+			scenesBuildPath = EditorBuildSettings.scenes.Select(s => s.path).ToArray();
 
-			if (_scenes.Any(s => s.Path == scene.Path))
-				RemoveScene(scene);
-
-			_scenes.Add(scene);
-			_selectedIndex = _scenes.Count;
-			SetOpenedScene(scene);
-			RefreshDisplayedOptions();
-			SaveToPlayerPrefs();
-		}
-
-		static void RemoveScene(SceneInfo scene) {
-			_scenes.Remove(scene);
-			_selectedIndex = 0;
-			RefreshDisplayedOptions();
-			SaveToPlayerPrefs();
-		}
-
-		static void SaveToPlayerPrefs(bool onlyLatestOpenedScene = false) {
-			if (!onlyLatestOpenedScene) {
-				var serialized = string.Join(";", _scenes.Where(s => !string.IsNullOrEmpty(s.Path)).Select(s => s.Path));
-				SetPref("SceneSelectionToolbar.Scenes", serialized);
+			string[] sceneGuids = AssetDatabase.FindAssets("t:scene");
+			scenesPath = new string[sceneGuids.Length];
+			for (int i = 0; i < scenesPath.Length; ++i) {
+				scenesPath[i] = AssetDatabase.GUIDToAssetPath(sceneGuids[i]);
 			}
 
-			if (_sceneOpened != null)
-				SetPref("SceneSelectionToolbar.LatestOpenedScene", _sceneOpened.Path);
-		}
+			Scene activeScene = SceneManager.GetActiveScene();
+			int usedIds = scenesBuildPath.Length;
 
-		static void LoadFromPlayerPrefs() {
-			var serialized = GetPref("SceneSelectionToolbar.Scenes");
+			for (int i = 0; i < scenesBuildPath.Length; ++i) {
+				string name = GetSceneName(scenesBuildPath[i]);
+				
+				if (selectedSceneIndex == -1 && GetSceneName(name) == activeScene.name)
+					selectedSceneIndex = i;
 
-			_scenes = serialized.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries).Select(s => new SceneInfo(s)).ToList();
-
-			if (_scenes == null)
-				_scenes = new List<SceneInfo>();
-
-			serialized = GetPref("SceneSelectionToolbar.LatestOpenedScene");
-
-			if (!string.IsNullOrEmpty(serialized))
-				SetOpenedScene(new SceneInfo(serialized));
-
-			RefreshDisplayedOptions();
-		}
-
-		static void SetPref(string name, string value) => EditorPrefs.SetString($"{Application.productName}_{name}", value);
-		static string GetPref(string name) => EditorPrefs.GetString($"{Application.productName}_{name}");
-
-		[Serializable]
-		class SceneInfo {
-			public SceneInfo() { }
-			public SceneInfo(Scene scene) {
-				Name = scene.name;
-				Path = scene.path;
+				toDisplay.Add(name);
 			}
 
-			public SceneInfo(string path) {
-				Name = System.IO.Path.GetFileNameWithoutExtension(path);
-				Path = path;
+			for (int i = 0; i < scenesPath.Length; ++i) {
+				if (scenesBuildPath.Contains(scenesPath[i]))
+					continue;
+
+				string name = GetSceneName(scenesPath[i]);
+				
+				if (selectedSceneIndex == -1 && name == activeScene.name)
+					selectedSceneIndex = usedIds;
+
+				toDisplay.Add(name);
+
+				++usedIds;
 			}
 
-			public string Name;
-			public string Path;
+			scenesPopupDisplay = toDisplay.ToArray();
+		}
+
+		static void HandleSceneOpened(Scene scene, OpenSceneMode mode) {
+			RefreshScenesList();
+		}
+
+		static string GetSceneName(string path) {
+			path = path.Replace(".unity", "");
+
+			int lastSlash = path.LastIndexOf('/');
+			if (0 <= lastSlash && lastSlash <= path.Length)
+				path = path.Substring(lastSlash + 1);
+
+			return path;
 		}
 	}
 }
