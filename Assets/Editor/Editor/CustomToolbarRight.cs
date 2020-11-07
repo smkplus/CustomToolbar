@@ -29,15 +29,26 @@ namespace UnityToolbarExtender {
 
 			GUILayout.Space(20);
 
+
+			DrawRecompileButton();
+			DrawReserializeSelected();
+			DrawReserializeAll();
+		}
+
+		static void DrawRecompileButton() {
 			if (GUILayout.Button(recompileBtn, ToolbarStyles.commandButtonStyle)) {
 				UnityEditor.Compilation.CompilationPipeline.RequestScriptCompilation();
 				Debug.Log("Recompile");
 			}
+		}
 
+		static void DrawReserializeSelected() {
 			if (GUILayout.Button(reserializeSelectedBtn, ToolbarStyles.commandButtonStyle)) {
 				ForceReserializeAssetsUtils.ForceReserializeSelectedAssets();
 			}
+		}
 
+		static void DrawReserializeAll() {
 			if (GUILayout.Button(reserializeAllBtn, ToolbarStyles.commandButtonStyle)) {
 				ForceReserializeAssetsUtils.ForceReserializeAllAssets();
 			}
