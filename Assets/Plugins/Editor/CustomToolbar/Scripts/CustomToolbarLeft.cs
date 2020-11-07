@@ -160,6 +160,9 @@ namespace UnityToolbarExtender
 				toDisplay.Add(content);
 			}
 
+			toDisplay.Add(new GUIContent("\0"));
+			++usedIds;
+
 			for (int i = 0; i < scenesPath.Length; ++i) {
 				if (scenesBuildPath.Contains(scenesPath[i]))
 					continue;
