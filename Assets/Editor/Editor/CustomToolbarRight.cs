@@ -16,7 +16,7 @@ namespace UnityToolbarExtender
 
         static void OnToolbarGUI()
         {
-            Time.timeScale = EditorGUILayout.Slider("", Time.timeScale, 0f, 2f, GUILayout.Width(300));
+            Time.timeScale = EditorGUILayout.Slider("", Time.timeScale, 0f, 10f, GUILayout.Width(300));
         }
     }
 }
