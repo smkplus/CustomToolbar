@@ -6,7 +6,11 @@ based on this [marijnz unity-toolbar-extender](https://github.com/marijnz/unity-
 ### Why use CustomToolbar?
 This custom tool helps you to test and develop your game easily
 
-_____
+____________
+Scene selection dropdown to open scene in editor. Scenes in build have unity icon while selected and appear above splitter in list
+
+![image](_readme/SceneSelect.jpg)
+____________
 
 when you want to clear all playerprefs you have to follow 3 step:
 
@@ -26,11 +30,6 @@ Enable Playerprefs:
 Disable Playerprefs:
 
 ![image](_readme/btnDisablePrefsInactive.jpg)
-____________
-
-I usually test my games by changing timescale.
-
-![image](_readme/timescale.jpg)
 ____________
 
 you can restart the active scene by this button:
@@ -55,5 +54,22 @@ this button is shortcut to start the game from scene 1:
 ![image](btnFirstScene)
 ____________
 
+I usually test my games by changing timescale.
 
+![image](_readme/timescale.jpg)
+____________
 
+Button to recompile scripts. Usefull when you working on splitting code into .asmdef
+
+![image](_readme/btnRecompile.jpg)
+____________
+
+Force reserialize selected(in project window) assets. What it does - https://docs.unity3d.com/ScriptReference/AssetDatabase.ForceReserializeAssets.html
+
+![image](_readme/btnReserializeSelected.jpg)
+____________
+
+Force reserialize all assets. Same as previous, but for all assets and takes some time. Use this after adding new asset or updating unity version in order to not spam git history with unwanted changes.
+
+![image](_readme/btnReserializeAll.jpg)
+____________
