@@ -1,51 +1,40 @@
 # CustomToolbar
-
-based on this [marijnz unity-toolbar-extender](https://github.com/marijnz/unity-toolbar-extender). This fork fix missing icons on Untiy 2019.3+
-
-![image](https://user-images.githubusercontent.com/16706911/68547502-82885680-03f7-11ea-8b93-465e0ffc8207.png)
-
+based on this [marijnz unity-toolbar-extender](https://github.com/marijnz/unity-toolbar-extender). 
+![image](_readme/all.jpg)
 
 
 ### Why use CustomToolbar?
+This custom tool helps you to test and develop your game easily
 
-this custom tool helps you to test your game easily
+____________
+Scene selection dropdown to open scene in editor. Scenes in build have unity icon while selected and appear above splitter in list
 
-_____
-
+![image](_readme/SceneSelect.jpg)
+____________
 
 when you want to clear all playerprefs you have to follow 3 step:
 
-![image (2)](https://user-images.githubusercontent.com/16706911/68548191-52dd4c80-03ff-11ea-85b6-e9899ab04c34.jpg)
+![image](https://user-images.githubusercontent.com/16706911/68548191-52dd4c80-03ff-11ea-85b6-e9899ab04c34.jpg)
 
 but you can easily Clear them by clicking on this button:
 
-![image](https://user-images.githubusercontent.com/16706911/68548208-799b8300-03ff-11ea-8e97-3d119fa772b0.png)
-
+![image](_readme/btnClearPrefs.jpg)
 ____________
 
 another button relevant to saving is this button that prevents saving during the gameplay. because sometimes you have to Clear All playerprefs after each test so you can enable this toggle:
 
 Enable Playerprefs:
 
-![image](https://user-images.githubusercontent.com/16706911/68548261-2b3ab400-0400-11ea-8188-8ea0197f0f55.png)
+![image](_readme/btnDisablePrefs.jpg)
 
 Disable Playerprefs:
 
-![image](https://user-images.githubusercontent.com/16706911/68548270-4279a180-0400-11ea-9353-384c8984ffe0.png)
-
+![image](_readme/btnDisablePrefsInactive.jpg)
 ____________
 
-I usually test my games by changing timescale.
+you can restart the active scene by this button:
 
-![image](https://user-images.githubusercontent.com/16706911/68548224-b23b5c80-03ff-11ea-9c1f-a23208c8bcf6.png)
-
-____________
-
-you can restart the game by this button:
-
-![image](https://user-images.githubusercontent.com/16706911/68548250-f3337100-03ff-11ea-8389-3ef267ea0a82.png)
-
-
+![image](_readme/btnRestartScene.jpg)
 ____________
 
 suppose you want to test your game so you should start game from scene 1(Menu):
@@ -60,11 +49,27 @@ then you should start the game:
 
 ![image](https://user-images.githubusercontent.com/16706911/68548331-eebb8800-0400-11ea-9c22-6f28922e76ae.png)
 
-
 this button is shortcut to start the game from scene 1:
 
-![image](https://user-images.githubusercontent.com/16706911/68548336-0266ee80-0401-11ea-9043-980100848323.png)
+![image](_readme/btnFirstScene.jpg)
+____________
 
+I usually test my games by changing timescale.
 
+![image](_readme/timescale.jpg)
+____________
 
+Button to recompile scripts. Usefull when you working on splitting code into .asmdef
 
+![image](_readme/btnRecompile.jpg)
+____________
+
+Force reserialize selected(in project window) assets. What it does - https://docs.unity3d.com/ScriptReference/AssetDatabase.ForceReserializeAssets.html
+
+![image](_readme/btnReserializeSelected.jpg)
+____________
+
+Force reserialize all assets. Same as previous, but for all assets and takes some time. Use this after adding new asset or updating unity version in order to not spam git history with unwanted changes.
+
+![image](_readme/btnReserializeAll.jpg)
+____________

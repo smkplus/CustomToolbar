@@ -1,6 +1,9 @@
-﻿using UnityEditor;
+﻿using System;
+using System.Linq;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEditor;
 using UnityEditor.SceneManagement;
 
 namespace UnityToolbarExtender
@@ -14,6 +17,11 @@ namespace UnityToolbarExtender
 		private static GUIContent clearPlayerPrefsBtn;
 		private static GUIContent reloadSceneBtn;
 		private static GUIContent startFromFirstSceneBtn;
+
+		static GUIContent[] scenesPopupDisplay;
+		static string[] scenesPath;
+		static string[] scenesBuildPath;
+		static int selectedSceneIndex;
 
 		static CustomToolbarLeft() {
 			ToolbarExtender.LeftToolbarGUI.Add(OnToolbarGUI);
@@ -30,16 +38,26 @@ namespace UnityToolbarExtender
 			saveActiveBtn = EditorGUIUtility.IconContent("SaveActive");
 			saveActiveBtn.tooltip = "Disable saving player prefs (currently saving)";
 
-			reloadSceneBtn = new GUIContent((Texture2D)AssetDatabase.LoadAssetAtPath("Assets/Editor/Icons/LookDevResetEnv@2x.png", typeof(Texture2D)), "Reload scene");
+			reloadSceneBtn = new GUIContent((Texture2D)AssetDatabase.LoadAssetAtPath("Assets/Plugins/Editor/CustomToolbar/Icons/LookDevResetEnv@2x.png", typeof(Texture2D)), "Reload scene");
 
-			startFromFirstSceneBtn = new GUIContent((Texture2D)AssetDatabase.LoadAssetAtPath("Assets/Editor/Icons/LookDevSingle1@2x.png", typeof(Texture2D)), "Start from 1 scene");
+			startFromFirstSceneBtn = new GUIContent((Texture2D)AssetDatabase.LoadAssetAtPath("Assets/Plugins/Editor/CustomToolbar/Icons/LookDevSingle1@2x.png", typeof(Texture2D)), "Start from 1 scene");
+
+			RefreshScenesList();
+			EditorSceneManager.sceneOpened += HandleSceneOpened;
 		}
 
 		static void OnToolbarGUI() {
 			GUILayout.FlexibleSpace();
 
+			DrawSceneDropdown();
+
+			GUILayout.Space(20);
+
 			DrawSavingPrefsButton();
 			DrawClearPrefsButton();
+
+			GUILayout.Space(20);
+
 			DrawReloadSceneButton();
 			DrawStartFromFirstSceneButton();
 		}
@@ -97,6 +115,85 @@ namespace UnityToolbarExtender
 
 				EditorApplication.isPlaying = !EditorApplication.isPlaying;
 			}
+		}
+
+		private static void DrawSceneDropdown() {
+			selectedSceneIndex = EditorGUILayout.Popup(selectedSceneIndex, scenesPopupDisplay, GUILayout.Width(150f));
+
+			if (GUI.changed && 0 <= selectedSceneIndex && selectedSceneIndex < scenesPopupDisplay.Length) {
+				if (EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) {
+					foreach (var scenePath in scenesPath) {
+						if(GetSceneName(scenePath) == scenesPopupDisplay[selectedSceneIndex].text) {
+							EditorSceneManager.OpenScene(scenePath);
+							break;
+						}
+					}
+				}
+			}
+
+		}
+
+		static void RefreshScenesList() {
+			List<GUIContent> toDisplay = new List<GUIContent>();
+
+			selectedSceneIndex = -1;
+			
+			scenesBuildPath = EditorBuildSettings.scenes.Select(s => s.path).ToArray();
+
+			string[] sceneGuids = AssetDatabase.FindAssets("t:scene");
+			scenesPath = new string[sceneGuids.Length];
+			for (int i = 0; i < scenesPath.Length; ++i) {
+				scenesPath[i] = AssetDatabase.GUIDToAssetPath(sceneGuids[i]);
+			}
+
+			Scene activeScene = SceneManager.GetActiveScene();
+			int usedIds = scenesBuildPath.Length;
+
+			for (int i = 0; i < scenesBuildPath.Length; ++i) {
+				string name = GetSceneName(scenesBuildPath[i]);
+				
+				if (selectedSceneIndex == -1 && GetSceneName(name) == activeScene.name)
+					selectedSceneIndex = i;
+
+				GUIContent content = new GUIContent(name, EditorGUIUtility.Load("BuildSettings.Editor.Small") as Texture, "Open scene");
+
+				toDisplay.Add(content);
+			}
+
+			toDisplay.Add(new GUIContent("\0"));
+			++usedIds;
+
+			for (int i = 0; i < scenesPath.Length; ++i) {
+				if (scenesBuildPath.Contains(scenesPath[i]))
+					continue;
+
+				string name = GetSceneName(scenesPath[i]);
+				
+				if (selectedSceneIndex == -1 && name == activeScene.name)
+					selectedSceneIndex = usedIds;
+
+				GUIContent content = new GUIContent(name, "Open scene");
+
+				toDisplay.Add(content);
+
+				++usedIds;
+			}
+
+			scenesPopupDisplay = toDisplay.ToArray();
+		}
+
+		static void HandleSceneOpened(Scene scene, OpenSceneMode mode) {
+			RefreshScenesList();
+		}
+
+		static string GetSceneName(string path) {
+			path = path.Replace(".unity", "");
+
+			int lastSlash = path.LastIndexOf('/');
+			if (0 <= lastSlash && lastSlash <= path.Length)
+				path = path.Substring(lastSlash + 1);
+
+			return path;
 		}
 	}
 }
