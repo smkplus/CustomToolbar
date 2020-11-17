@@ -10,6 +10,7 @@ namespace UnityToolbarExtender {
 		private static GUIContent recompileBtn;
 		private static GUIContent reserializeSelectedBtn;
 		private static GUIContent reserializeAllBtn;
+		private static int selectedFramerate = 60;
 
 		static CustomToolbarRight() {
 			ToolbarExtender.RightToolbarGUI.Add(OnToolbarGUI);
@@ -25,10 +26,16 @@ namespace UnityToolbarExtender {
 		}
 
 		static void OnToolbarGUI() {
-			Time.timeScale = EditorGUILayout.Slider("", Time.timeScale, 0f, 10f, GUILayout.Width(300));
+			EditorGUILayout.LabelField("Time", GUILayout.Width(30));
+			Time.timeScale = EditorGUILayout.Slider("", Time.timeScale, 0f, 10f, GUILayout.Width(200));
+			GUILayout.Space(10);
 
-			GUILayout.Space(20);
-
+			EditorGUILayout.LabelField("FPS", GUILayout.Width(30));
+			selectedFramerate = EditorGUILayout.IntSlider("", selectedFramerate, 1, 120, GUILayout.Width(200));
+			if(EditorApplication.isPlaying && selectedFramerate != Application.targetFrameRate) {
+				Application.targetFrameRate = selectedFramerate;
+			}
+			GUILayout.Space(10);
 
 			DrawRecompileButton();
 			DrawReserializeSelected();

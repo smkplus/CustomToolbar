@@ -51,12 +51,12 @@ namespace UnityToolbarExtender
 
 			DrawSceneDropdown();
 
-			GUILayout.Space(20);
+			GUILayout.Space(10);
 
 			DrawSavingPrefsButton();
 			DrawClearPrefsButton();
 
-			GUILayout.Space(20);
+			GUILayout.Space(10);
 
 			DrawReloadSceneButton();
 			DrawStartFromFirstSceneButton();
