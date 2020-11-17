@@ -59,6 +59,11 @@ I usually test my games by changing timescale.
 ![image](_readme/timescale.jpg)
 ____________
 
+Also it usefull to test your game with different framerates, to be sure that it is framerate-independent.
+
+![image](_readme/FPS.jpg)
+____________
+
 Button to recompile scripts. Usefull when you working on splitting code into .asmdef
 
 ![image](_readme/btnRecompile.jpg)
