@@ -17,7 +17,11 @@ namespace UnityToolbarExtender
 
 		static ToolbarExtender()
 		{
+#if UNITY_2020_1_OR_NEWER
+			Type toolbarType = typeof(Editor).Assembly.GetType("UnityEditor.UnityMainToolbar");
+#else
 			Type toolbarType = typeof(Editor).Assembly.GetType("UnityEditor.Toolbar");
+#endif
 			FieldInfo toolIcons = toolbarType.GetField("s_ShownToolIcons",
 				BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static);
 			var array = ( Array ) toolIcons.GetValue( null );
