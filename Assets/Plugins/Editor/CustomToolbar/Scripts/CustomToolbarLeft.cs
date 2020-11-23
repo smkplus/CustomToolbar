@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEditor;
 using UnityEditor.SceneManagement;
+using System.IO;
 
 namespace UnityToolbarExtender
 {
@@ -122,7 +123,8 @@ namespace UnityToolbarExtender
 
 			if (GUI.changed && 0 <= selectedSceneIndex && selectedSceneIndex < scenesPopupDisplay.Length) {
 				if (EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) {
-					foreach (var scenePath in scenesPath) {
+					foreach (var scenePath in scenesPath)
+					{
 						if(GetSceneName(scenePath) == scenesPopupDisplay[selectedSceneIndex].text) {
 							EditorSceneManager.OpenScene(scenePath);
 							break;
@@ -151,7 +153,7 @@ namespace UnityToolbarExtender
 
 			for (int i = 0; i < scenesBuildPath.Length; ++i) {
 				string name = GetSceneName(scenesBuildPath[i]);
-				
+
 				if (selectedSceneIndex == -1 && GetSceneName(name) == activeScene.name)
 					selectedSceneIndex = i;
 
@@ -166,8 +168,8 @@ namespace UnityToolbarExtender
 			for (int i = 0; i < scenesPath.Length; ++i) {
 				if (scenesBuildPath.Contains(scenesPath[i]))
 					continue;
-
-				string name = GetSceneName(scenesPath[i]);
+				string folderName = Path.GetFileName( Path.GetDirectoryName( scenesPath[i] ) );
+				string name = $"{folderName}/{GetSceneName(scenesPath[i])}";
 				
 				if (selectedSceneIndex == -1 && name == activeScene.name)
 					selectedSceneIndex = usedIds;
@@ -188,12 +190,7 @@ namespace UnityToolbarExtender
 
 		static string GetSceneName(string path) {
 			path = path.Replace(".unity", "");
-
-			int lastSlash = path.LastIndexOf('/');
-			if (0 <= lastSlash && lastSlash <= path.Length)
-				path = path.Substring(lastSlash + 1);
-
-			return path;
+			return Path.GetFileName(path);
 		}
 	}
 }
