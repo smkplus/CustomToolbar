@@ -27,11 +27,11 @@ namespace UnityToolbarExtender {
 
 		static void OnToolbarGUI() {
 			EditorGUILayout.LabelField("Time", GUILayout.Width(30));
-			Time.timeScale = EditorGUILayout.Slider("", Time.timeScale, 0f, 10f, GUILayout.Width(200));
+			Time.timeScale = EditorGUILayout.Slider("", Time.timeScale, 0f, 10f, GUILayout.Width(150));
 			GUILayout.Space(10);
 
 			EditorGUILayout.LabelField("FPS", GUILayout.Width(30));
-			selectedFramerate = EditorGUILayout.IntSlider("", selectedFramerate, 1, 120, GUILayout.Width(200));
+			selectedFramerate = EditorGUILayout.IntSlider("", selectedFramerate, 1, 120, GUILayout.Width(150));
 			if(EditorApplication.isPlaying && selectedFramerate != Application.targetFrameRate) {
 				Application.targetFrameRate = selectedFramerate;
 			}
