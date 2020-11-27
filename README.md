@@ -1,5 +1,9 @@
 # CustomToolbar
+![Unity 2019.4+](https://img.shields.io/badge/unity-unity%202019.4%2B-blue)
+![License: MIT](https://img.shields.io/badge/License-MIT-brightgreen.svg)
+
 based on this [marijnz unity-toolbar-extender](https://github.com/marijnz/unity-toolbar-extender). 
+
 ![image](https://user-images.githubusercontent.com/16706911/100000419-cff31e00-2dd6-11eb-9a4b-8379e3a7cc50.jpg)
 
 
@@ -7,6 +11,11 @@ based on this [marijnz unity-toolbar-extender](https://github.com/marijnz/unity-
 ### Why use CustomToolbar?
 This custom tool helps you to test and develop your game easily
 
+## Installation
+
+You can also install via git url by adding this entry in your **manifest.json**
+
+```"com.smkplus.custom-toolbar": "https://github.com/smkplus/CustomToolbar.git#master",```
 ____________
 Scene selection dropdown to open scene in editor. Scenes in build have unity icon while selected and appear above splitter in list
 
@@ -48,7 +57,7 @@ you have to find scene 1 (Menu):
 
 then you should start the game:
 
-![image](https://user-images.githubusercontent.com/16706911/68548331-eebb8800-0400-11ea-9c22-6f28922e76ae.png)
+![image](_readme/all.jpg)
 
 this button is shortcut to start the game from scene 1:
 
