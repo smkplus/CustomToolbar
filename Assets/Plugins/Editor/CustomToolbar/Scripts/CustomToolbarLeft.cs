@@ -11,6 +11,13 @@ namespace UnityToolbarExtender
 {
     [InitializeOnLoad]
 	public class CustomToolbarLeft {
+
+		class SceneData
+		{
+			public string path;
+			public GUIContent popupDisplay;
+		}
+		
 		private static bool _deleteKeys = false;
 
 		private static GUIContent savePassiveBtn;
@@ -19,7 +26,7 @@ namespace UnityToolbarExtender
 		private static GUIContent reloadSceneBtn;
 		private static GUIContent startFromFirstSceneBtn;
 
-		static GUIContent[] scenesPopupDisplay;
+		static SceneData[] scenesPopupDisplay;
 		static string[] scenesPath;
 		static string[] scenesBuildPath;
 		static int selectedSceneIndex;
@@ -119,13 +126,12 @@ namespace UnityToolbarExtender
 		}
 
 		private static void DrawSceneDropdown() {
-			selectedSceneIndex = EditorGUILayout.Popup(selectedSceneIndex, scenesPopupDisplay, GUILayout.Width(150f));
+			selectedSceneIndex = EditorGUILayout.Popup(selectedSceneIndex, scenesPopupDisplay.Select(e => e.popupDisplay).ToArray(), GUILayout.Width(150f));
 
 			if (GUI.changed && 0 <= selectedSceneIndex && selectedSceneIndex < scenesPopupDisplay.Length) {
 				if (EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) {
-					foreach (var scenePath in scenesPath)
-					{
-						if(GetSceneName(scenePath) == scenesPopupDisplay[selectedSceneIndex].text) {
+					foreach (var scenePath in scenesPath) {
+						if((scenePath) == scenesPopupDisplay[selectedSceneIndex].path) {
 							EditorSceneManager.OpenScene(scenePath);
 							break;
 						}
@@ -136,7 +142,9 @@ namespace UnityToolbarExtender
 		}
 
 		static void RefreshScenesList() {
-			List<GUIContent> toDisplay = new List<GUIContent>();
+			
+			
+			List<SceneData> toDisplay = new List<SceneData>();
 
 			selectedSceneIndex = -1;
 			
@@ -159,10 +167,18 @@ namespace UnityToolbarExtender
 
 				GUIContent content = new GUIContent(name, EditorGUIUtility.Load("BuildSettings.Editor.Small") as Texture, "Open scene");
 
-				toDisplay.Add(content);
+				toDisplay.Add(new SceneData()
+				{
+					path = scenesBuildPath[i],
+					popupDisplay = content,
+				});
 			}
 
-			toDisplay.Add(new GUIContent("\0"));
+			toDisplay.Add(new SceneData()
+			{
+				path = "\0",
+				popupDisplay = new GUIContent("\0"),
+			});
 			++usedIds;
 
 			for (int i = 0; i < scenesPath.Length; ++i) {
@@ -176,7 +192,11 @@ namespace UnityToolbarExtender
 
 				GUIContent content = new GUIContent(name, "Open scene");
 
-				toDisplay.Add(content);
+				toDisplay.Add(new SceneData()
+				{
+					path = scenesPath[i],
+					popupDisplay = content,
+				});
 
 				++usedIds;
 			}
