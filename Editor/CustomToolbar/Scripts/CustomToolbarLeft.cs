@@ -31,6 +31,13 @@ namespace UnityToolbarExtender
 		static string[] scenesBuildPath;
 		static int selectedSceneIndex;
 
+		static string GetPackageRootPath {
+			get
+			{
+				return "Packages/com.smkplus.custom-toolbar";
+			}
+		}
+
 		static CustomToolbarLeft() {
 			ToolbarExtender.LeftToolbarGUI.Add(OnToolbarGUI);
 			EditorApplication.playModeStateChanged += LogPlayModeState;
@@ -46,9 +53,9 @@ namespace UnityToolbarExtender
 			saveActiveBtn = EditorGUIUtility.IconContent("SaveActive");
 			saveActiveBtn.tooltip = "Disable saving player prefs (currently saving)";
 
-			reloadSceneBtn = new GUIContent((Texture2D)AssetDatabase.LoadAssetAtPath("Assets/Plugins/Editor/CustomToolbar/Icons/LookDevResetEnv@2x.png", typeof(Texture2D)), "Reload scene");
+			reloadSceneBtn = new GUIContent((Texture2D)AssetDatabase.LoadAssetAtPath($"{GetPackageRootPath}/Editor/CustomToolbar/Icons/LookDevResetEnv@2x.png", typeof(Texture2D)), "Reload scene");
 
-			startFromFirstSceneBtn = new GUIContent((Texture2D)AssetDatabase.LoadAssetAtPath("Assets/Plugins/Editor/CustomToolbar/Icons/LookDevSingle1@2x.png", typeof(Texture2D)), "Start from 1 scene");
+			startFromFirstSceneBtn = new GUIContent((Texture2D)AssetDatabase.LoadAssetAtPath($"{GetPackageRootPath}/Editor/CustomToolbar/Icons/LookDevSingle1@2x.png", typeof(Texture2D)), "Start from 1 scene");
 
 			RefreshScenesList();
 			EditorSceneManager.sceneOpened += HandleSceneOpened;
