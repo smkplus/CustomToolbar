@@ -115,7 +115,7 @@ namespace UnityToolbarExtender
 				EditorSettings.enterPlayModeOptions = (EnterPlayModeOptions) (selectedEnterPlayMode - 1);
 			}
 		}
-
+#endif
 		private static void LogPlayModeState(PlayModeStateChange state) {
 			if (state == PlayModeStateChange.EnteredEditMode && EditorPrefs.HasKey("LastActiveSceneToolbar")) {
 				EditorSceneManager.OpenScene(
@@ -123,7 +123,7 @@ namespace UnityToolbarExtender
 				EditorPrefs.DeleteKey("LastActiveSceneToolbar");
 			}
 		}
-#endif
+
 		private static void DrawSavingPrefsButton() {
 			if (_deleteKeys) {
 				if (GUILayout.Button(savePassiveBtn, ToolbarStyles.commandButtonStyle)) {
