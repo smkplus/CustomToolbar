@@ -1,5 +1,5 @@
 {
-    "name": "NewAssembly",
+    "name": "CustomToolbar.Editor",
     "references": [],
     "includePlatforms": [
         "Editor"
