@@ -19,7 +19,7 @@ You can also install via git url by adding this entry in your **manifest.json**
 ____________
 Scene selection dropdown to open scene in editor. Scenes in build have unity icon while selected and appear above splitter in list
 
-![image](_readme/SceneSelect.jpg)
+![image](Images~/SceneSelect.jpg)
 ____________
 
 when you want to clear all playerprefs you have to follow 3 step:
@@ -28,23 +28,23 @@ when you want to clear all playerprefs you have to follow 3 step:
 
 but you can easily Clear them by clicking on this button:
 
-![image](_readme/btnClearPrefs.jpg)
+![image](Images~/btnClearPrefs.jpg)
 ____________
 
 another button relevant to saving is this button that prevents saving during the gameplay. because sometimes you have to Clear All playerprefs after each test so you can enable this toggle:
 
 Enable Playerprefs:
 
-![image](_readme/btnDisablePrefs.jpg)
+![image](Images~/btnDisablePrefs.jpg)
 
 Disable Playerprefs:
 
-![image](_readme/btnDisablePrefsInactive.jpg)
+![image](Images~/btnDisablePrefsInactive.jpg)
 ____________
 
 you can restart the active scene by this button:
 
-![image](_readme/btnRestartScene.jpg)
+![image](Images~/btnRestartScene.jpg)
 ____________
 
 suppose you want to test your game so you should start game from scene 1(Menu):
@@ -57,34 +57,38 @@ you have to find scene 1 (Menu):
 
 then you should start the game:
 
-![image](_readme/all.jpg)
+![image](Images~/all.jpg)
 
 this button is shortcut to start the game from scene 1:
 
-![image](_readme/btnFirstScene.jpg)
+![image](Images~/btnFirstScene.jpg)
 ____________
 
 I usually test my games by changing timescale.
 
-![image](_readme/timescale.jpg)
+![image](Images~/timescale.jpg)
 ____________
 
 Also it usefull to test your game with different framerates, to be sure that it is framerate-independent.
 
-![image](_readme/FPS.jpg)
+![image](Images~/FPS.jpg)
 ____________
 
 Button to recompile scripts. Usefull when you working on splitting code into .asmdef
 
-![image](_readme/btnRecompile.jpg)
+![image](Images~/btnRecompile.jpg)
 ____________
 
 Force reserialize selected(in project window) assets. What it does - https://docs.unity3d.com/ScriptReference/AssetDatabase.ForceReserializeAssets.html
 
-![image](_readme/btnReserializeSelected.jpg)
+![image](Images~/btnReserializeSelected.jpg)
 ____________
 
 Force reserialize all assets. Same as previous, but for all assets and takes some time. Use this after adding new asset or updating unity version in order to not spam git history with unwanted changes.
 
-![image](_readme/btnReserializeAll.jpg)
+![image](Images~/btnReserializeAll.jpg)
 ____________
+
+Sample scene to test  
+you can import sample scene from package manager.  
+![image](Images~/Package-Manager.png)

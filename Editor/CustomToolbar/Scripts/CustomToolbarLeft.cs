@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEditor;
 using UnityEditor.SceneManagement;
-using System.IO;
 
 namespace UnityToolbarExtender
 {
@@ -30,6 +30,17 @@ namespace UnityToolbarExtender
 		static string[] scenesPath;
 		static string[] scenesBuildPath;
 		static int selectedSceneIndex;
+		
+		static string GetPackageRootPath {
+			get
+			{
+				return "Packages/com.smkplus.custom-toolbar";
+			}
+		}
+
+#if UNITY_2019_3_OR_NEWER
+		static int selectedEnterPlayMode;
+#endif
 
 		static CustomToolbarLeft() {
 			ToolbarExtender.LeftToolbarGUI.Add(OnToolbarGUI);
@@ -46,9 +57,8 @@ namespace UnityToolbarExtender
 			saveActiveBtn = EditorGUIUtility.IconContent("SaveActive");
 			saveActiveBtn.tooltip = "Disable saving player prefs (currently saving)";
 
-			reloadSceneBtn = new GUIContent((Texture2D)AssetDatabase.LoadAssetAtPath("Assets/Plugins/Editor/CustomToolbar/Icons/LookDevResetEnv@2x.png", typeof(Texture2D)), "Reload scene");
-
-			startFromFirstSceneBtn = new GUIContent((Texture2D)AssetDatabase.LoadAssetAtPath("Assets/Plugins/Editor/CustomToolbar/Icons/LookDevSingle1@2x.png", typeof(Texture2D)), "Start from 1 scene");
+			reloadSceneBtn = new GUIContent((Texture2D)AssetDatabase.LoadAssetAtPath($"{GetPackageRootPath}/Editor/CustomToolbar/Icons/LookDevResetEnv@2x.png", typeof(Texture2D)), "Reload scene");
+			startFromFirstSceneBtn = new GUIContent((Texture2D)AssetDatabase.LoadAssetAtPath($"{GetPackageRootPath}/Editor/CustomToolbar/Icons/LookDevSingle1@2x.png", typeof(Texture2D)), "Start from 1 scene");
 
 			RefreshScenesList();
 			EditorSceneManager.sceneOpened += HandleSceneOpened;
@@ -56,6 +66,11 @@ namespace UnityToolbarExtender
 
 		static void OnToolbarGUI() {
 			GUILayout.FlexibleSpace();
+
+#if UNITY_2019_3_OR_NEWER
+			DrawEnterPlayModeOption();
+			GUILayout.Space(10);
+#endif
 
 			DrawSceneDropdown();
 
@@ -69,7 +84,38 @@ namespace UnityToolbarExtender
 			DrawReloadSceneButton();
 			DrawStartFromFirstSceneButton();
 		}
+#if UNITY_2019_3_OR_NEWER
+		static readonly string[] enterPlayModeOption = new[]
+		{
+			"Disabled",
+			"Reload All",
+			"Reload Scene",
+			"Reload Domain",
+			"FastMode",
+		};
+		
 
+		static void DrawEnterPlayModeOption()
+		{
+			if (EditorSettings.enterPlayModeOptionsEnabled)
+			{
+				EnterPlayModeOptions option = EditorSettings.enterPlayModeOptions;
+				selectedEnterPlayMode = (int) option + 1;
+			}
+			else
+			{
+				selectedSceneIndex = 0;
+			}
+			
+			selectedEnterPlayMode = EditorGUILayout.Popup(selectedEnterPlayMode, enterPlayModeOption, GUILayout.Width(150f));
+			
+			if (GUI.changed && 0 <= selectedEnterPlayMode && selectedEnterPlayMode < enterPlayModeOption.Length)
+			{
+				EditorSettings.enterPlayModeOptionsEnabled = selectedEnterPlayMode != 0;
+				EditorSettings.enterPlayModeOptions = (EnterPlayModeOptions) (selectedEnterPlayMode - 1);
+			}
+		}
+#endif
 		private static void LogPlayModeState(PlayModeStateChange state) {
 			if (state == PlayModeStateChange.EnteredEditMode && EditorPrefs.HasKey("LastActiveSceneToolbar")) {
 				EditorSceneManager.OpenScene(
@@ -161,7 +207,7 @@ namespace UnityToolbarExtender
 
 			for (int i = 0; i < scenesBuildPath.Length; ++i) {
 				string name = GetSceneName(scenesBuildPath[i]);
-
+				
 				if (selectedSceneIndex == -1 && GetSceneName(name) == activeScene.name)
 					selectedSceneIndex = i;
 

@@ -11,5 +11,11 @@
     "email": "smkplus3d@gmail.com",
     "url": "https://github.com/smkplus/CustomToolbar"
   },
-  "type": "tool"
+  "type": "tool",
+  "samples": [
+  	{
+  		"displayName": "Demo Scenes",
+  		"description": "Test Scenes",
+  		"path": "Samples~/Demo Scene"
+  	}]
 }
