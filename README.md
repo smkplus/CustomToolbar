@@ -8,7 +8,7 @@ based on this [marijnz unity-toolbar-extender](https://github.com/marijnz/unity-
 
 
 
-### Why use CustomToolbar?
+### Why you should use the CustomToolbar?
 This custom tool helps you to test and develop your game easily
 
 ## Installation
@@ -16,6 +16,10 @@ This custom tool helps you to test and develop your game easily
 You can also install via git url by adding this entry in your **manifest.json**
 
 ```"com.smkplus.custom-toolbar": "https://github.com/smkplus/CustomToolbar.git#master",```
+
+## Sample scenes to test  
+you can import sample scene from package manager.  
+![image](Images~/Package-Manager.png)
 ____________
 Scene selection dropdown to open scene in editor. Scenes in build have unity icon while selected and appear above splitter in list
 
@@ -87,8 +91,3 @@ ____________
 Force reserialize all assets. Same as previous, but for all assets and takes some time. Use this after adding new asset or updating unity version in order to not spam git history with unwanted changes.
 
 ![image](Images~/btnReserializeAll.jpg)
-____________
-
-Sample scene to test  
-you can import sample scene from package manager.  
-![image](Images~/Package-Manager.png)
