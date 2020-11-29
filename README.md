@@ -18,7 +18,8 @@ You can also install via git url by adding this entry in your **manifest.json**
 ```"com.smkplus.custom-toolbar": "https://github.com/smkplus/CustomToolbar.git#master",```
 
 ## Sample scenes to test  
-you can import sample scene from package manager.  
+You can import sample scenes from package manager. 
+
 ![image](Images~/Package-Manager.png)
 ____________
 Scene selection dropdown to open scene in editor. Scenes in build have unity icon while selected and appear above splitter in list
