@@ -1,0 +1,21 @@
+{
+  "name": "com.smkplus.custom-toolbar",
+  "version": "1.0.0",
+  "displayName": "Custom-Toolbar",
+  "description": "This custom tool helps you to test and develop your game easily",
+  "unity": "2019.1",
+  "unityRelease": "0b1",
+  "keywords": [ "attribute", "inspector", "editor" ],
+  "author": {
+    "name": "Seyed Morteza Kamali",
+    "email": "smkplus3d@gmail.com",
+    "url": "https://github.com/smkplus/CustomToolbar"
+  },
+  "type": "tool",
+  "samples": [
+  	{
+  		"displayName": "Demo Scenes",
+  		"description": "Test Scenes",
+  		"path": "Samples~/Demo Scene"
+  	}]
+}

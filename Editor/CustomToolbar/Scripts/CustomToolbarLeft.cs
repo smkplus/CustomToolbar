@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEditor;
@@ -10,6 +11,13 @@ namespace UnityToolbarExtender
 {
     [InitializeOnLoad]
 	public class CustomToolbarLeft {
+
+		class SceneData
+		{
+			public string path;
+			public GUIContent popupDisplay;
+		}
+		
 		private static bool _deleteKeys = false;
 
 		private static GUIContent savePassiveBtn;
@@ -18,10 +26,21 @@ namespace UnityToolbarExtender
 		private static GUIContent reloadSceneBtn;
 		private static GUIContent startFromFirstSceneBtn;
 
-		static GUIContent[] scenesPopupDisplay;
+		static SceneData[] scenesPopupDisplay;
 		static string[] scenesPath;
 		static string[] scenesBuildPath;
 		static int selectedSceneIndex;
+		
+		static string GetPackageRootPath {
+			get
+			{
+				return "Packages/com.smkplus.custom-toolbar";
+			}
+		}
+
+#if UNITY_2019_3_OR_NEWER
+		static int selectedEnterPlayMode;
+#endif
 
 		static CustomToolbarLeft() {
 			ToolbarExtender.LeftToolbarGUI.Add(OnToolbarGUI);
@@ -38,9 +57,8 @@ namespace UnityToolbarExtender
 			saveActiveBtn = EditorGUIUtility.IconContent("SaveActive");
 			saveActiveBtn.tooltip = "Disable saving player prefs (currently saving)";
 
-			reloadSceneBtn = new GUIContent((Texture2D)AssetDatabase.LoadAssetAtPath("Assets/Plugins/Editor/CustomToolbar/Icons/LookDevResetEnv@2x.png", typeof(Texture2D)), "Reload scene");
-
-			startFromFirstSceneBtn = new GUIContent((Texture2D)AssetDatabase.LoadAssetAtPath("Assets/Plugins/Editor/CustomToolbar/Icons/LookDevSingle1@2x.png", typeof(Texture2D)), "Start from 1 scene");
+			reloadSceneBtn = new GUIContent((Texture2D)AssetDatabase.LoadAssetAtPath($"{GetPackageRootPath}/Editor/CustomToolbar/Icons/LookDevResetEnv@2x.png", typeof(Texture2D)), "Reload scene");
+			startFromFirstSceneBtn = new GUIContent((Texture2D)AssetDatabase.LoadAssetAtPath($"{GetPackageRootPath}/Editor/CustomToolbar/Icons/LookDevSingle1@2x.png", typeof(Texture2D)), "Start from 1 scene");
 
 			RefreshScenesList();
 			EditorSceneManager.sceneOpened += HandleSceneOpened;
@@ -48,6 +66,11 @@ namespace UnityToolbarExtender
 
 		static void OnToolbarGUI() {
 			GUILayout.FlexibleSpace();
+
+#if UNITY_2019_3_OR_NEWER
+			DrawEnterPlayModeOption();
+			GUILayout.Space(10);
+#endif
 
 			DrawSceneDropdown();
 
@@ -61,7 +84,38 @@ namespace UnityToolbarExtender
 			DrawReloadSceneButton();
 			DrawStartFromFirstSceneButton();
 		}
+#if UNITY_2019_3_OR_NEWER
+		static readonly string[] enterPlayModeOption = new[]
+		{
+			"Disabled",
+			"Reload All",
+			"Reload Scene",
+			"Reload Domain",
+			"FastMode",
+		};
+		
 
+		static void DrawEnterPlayModeOption()
+		{
+			if (EditorSettings.enterPlayModeOptionsEnabled)
+			{
+				EnterPlayModeOptions option = EditorSettings.enterPlayModeOptions;
+				selectedEnterPlayMode = (int) option + 1;
+			}
+			else
+			{
+				selectedSceneIndex = 0;
+			}
+			
+			selectedEnterPlayMode = EditorGUILayout.Popup(selectedEnterPlayMode, enterPlayModeOption, GUILayout.Width(150f));
+			
+			if (GUI.changed && 0 <= selectedEnterPlayMode && selectedEnterPlayMode < enterPlayModeOption.Length)
+			{
+				EditorSettings.enterPlayModeOptionsEnabled = selectedEnterPlayMode != 0;
+				EditorSettings.enterPlayModeOptions = (EnterPlayModeOptions) (selectedEnterPlayMode - 1);
+			}
+		}
+#endif
 		private static void LogPlayModeState(PlayModeStateChange state) {
 			if (state == PlayModeStateChange.EnteredEditMode && EditorPrefs.HasKey("LastActiveSceneToolbar")) {
 				EditorSceneManager.OpenScene(
@@ -118,12 +172,12 @@ namespace UnityToolbarExtender
 		}
 
 		private static void DrawSceneDropdown() {
-			selectedSceneIndex = EditorGUILayout.Popup(selectedSceneIndex, scenesPopupDisplay, GUILayout.Width(150f));
+			selectedSceneIndex = EditorGUILayout.Popup(selectedSceneIndex, scenesPopupDisplay.Select(e => e.popupDisplay).ToArray(), GUILayout.Width(150f));
 
 			if (GUI.changed && 0 <= selectedSceneIndex && selectedSceneIndex < scenesPopupDisplay.Length) {
 				if (EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) {
 					foreach (var scenePath in scenesPath) {
-						if(GetSceneName(scenePath) == scenesPopupDisplay[selectedSceneIndex].text) {
+						if((scenePath) == scenesPopupDisplay[selectedSceneIndex].path) {
 							EditorSceneManager.OpenScene(scenePath);
 							break;
 						}
@@ -134,7 +188,9 @@ namespace UnityToolbarExtender
 		}
 
 		static void RefreshScenesList() {
-			List<GUIContent> toDisplay = new List<GUIContent>();
+			
+			
+			List<SceneData> toDisplay = new List<SceneData>();
 
 			selectedSceneIndex = -1;
 			
@@ -157,24 +213,36 @@ namespace UnityToolbarExtender
 
 				GUIContent content = new GUIContent(name, EditorGUIUtility.Load("BuildSettings.Editor.Small") as Texture, "Open scene");
 
-				toDisplay.Add(content);
+				toDisplay.Add(new SceneData()
+				{
+					path = scenesBuildPath[i],
+					popupDisplay = content,
+				});
 			}
 
-			toDisplay.Add(new GUIContent("\0"));
+			toDisplay.Add(new SceneData()
+			{
+				path = "\0",
+				popupDisplay = new GUIContent("\0"),
+			});
 			++usedIds;
 
 			for (int i = 0; i < scenesPath.Length; ++i) {
 				if (scenesBuildPath.Contains(scenesPath[i]))
 					continue;
-
-				string name = GetSceneName(scenesPath[i]);
+				string folderName = Path.GetFileName( Path.GetDirectoryName( scenesPath[i] ) );
+				string name = $"{folderName}/{GetSceneName(scenesPath[i])}";
 				
 				if (selectedSceneIndex == -1 && name == activeScene.name)
 					selectedSceneIndex = usedIds;
 
 				GUIContent content = new GUIContent(name, "Open scene");
 
-				toDisplay.Add(content);
+				toDisplay.Add(new SceneData()
+				{
+					path = scenesPath[i],
+					popupDisplay = content,
+				});
 
 				++usedIds;
 			}
@@ -188,12 +256,7 @@ namespace UnityToolbarExtender
 
 		static string GetSceneName(string path) {
 			path = path.Replace(".unity", "");
-
-			int lastSlash = path.LastIndexOf('/');
-			if (0 <= lastSlash && lastSlash <= path.Length)
-				path = path.Substring(lastSlash + 1);
-
-			return path;
+			return Path.GetFileName(path);
 		}
 	}
 }
