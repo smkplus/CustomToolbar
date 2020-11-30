@@ -72,6 +72,12 @@ namespace UnityToolbarExtender
 		static void OnToolbarGUI() {
 			GUILayout.FlexibleSpace();
 
+			for (int i = 0; i < setting.elements.Count; ++i) {
+				if (setting.elements[i] is ToolbarSides)
+					break;
+				setting.elements[i].DrawInToolbar();
+			}
+
 #if UNITY_2019_3_OR_NEWER
 			DrawEnterPlayModeOption();
 			GUILayout.Space(10);

@@ -53,8 +53,10 @@ namespace UnityToolbarExtender
 			EditorGUILayout.EndScrollView();
 
 			m_toolbarSetting.ApplyModifiedProperties();
-			if(GUI.changed)
+			if (GUI.changed) {
 				EditorUtility.SetDirty(m_toolbarSetting.targetObject);
+				ToolbarExtender.OnGUI();
+			}
 		}
 
 		private void OnMenuItemAdd(object target) {

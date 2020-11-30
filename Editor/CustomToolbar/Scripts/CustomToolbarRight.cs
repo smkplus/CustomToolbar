@@ -31,13 +31,18 @@ namespace UnityToolbarExtender {
 		}
 
 		static void OnToolbarGUI() {
-			foreach (var element in setting.elements) {
-				element.DrawInToolbar();
-			}
-			
+			int i = 0;
+			for (; i < setting.elements.Count; ++i) 
+				if(setting.elements[i] is ToolbarSides) 
+					break;
+			for (++i; i < setting.elements.Count; ++i)
+				setting.elements[i].DrawInToolbar();
+
 			DrawRecompileButton();
 			DrawReserializeSelected();
 			DrawReserializeAll();
+
+			GUILayout.FlexibleSpace();
 		}
 
 		static void DrawRecompileButton() {
