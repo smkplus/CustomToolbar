@@ -7,12 +7,17 @@ namespace UnityToolbarExtender {
 
 	[InitializeOnLoad]
 	public static class CustomToolbarRight {
+		
+		private static CustomToolbarSetting setting;
+		
 		private static GUIContent recompileBtn;
 		private static GUIContent reserializeSelectedBtn;
 		private static GUIContent reserializeAllBtn;
 		private static int selectedFramerate = 60;
 
 		static CustomToolbarRight() {
+			setting = CustomToolbarSetting.GetOrCreateSetting();
+			
 			ToolbarExtender.RightToolbarGUI.Add(OnToolbarGUI);
 
 			recompileBtn = EditorGUIUtility.IconContent("WaitSpin05");
@@ -26,16 +31,27 @@ namespace UnityToolbarExtender {
 		}
 
 		static void OnToolbarGUI() {
+			
 			EditorGUILayout.LabelField("Time", GUILayout.Width(30));
 			Time.timeScale = EditorGUILayout.Slider("", Time.timeScale, 0f, 10f, GUILayout.Width(150));
 			GUILayout.Space(10);
 
-			EditorGUILayout.LabelField("FPS", GUILayout.Width(30));
-			selectedFramerate = EditorGUILayout.IntSlider("", selectedFramerate, 1, 120, GUILayout.Width(150));
-			if(EditorApplication.isPlaying && selectedFramerate != Application.targetFrameRate) {
-				Application.targetFrameRate = selectedFramerate;
+			if (setting != null && setting.limitFPS)
+			{
+				EditorGUILayout.LabelField("FPS", GUILayout.Width(30));
+				selectedFramerate = EditorGUILayout.IntSlider("", selectedFramerate, setting.minFPS, setting.maxFPS,
+					GUILayout.Width(150));
+				if (EditorApplication.isPlaying && selectedFramerate != Application.targetFrameRate)
+				{
+					Application.targetFrameRate = selectedFramerate;
+				}
+
+				GUILayout.Space(10);
 			}
-			GUILayout.Space(10);
+			else
+			{
+				GUILayout.Space(150 + 10 + 30 + 6);
+			}
 
 			DrawRecompileButton();
 			DrawReserializeSelected();
