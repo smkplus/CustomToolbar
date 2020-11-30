@@ -1,18 +1,25 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
-public class ToolbarReserializeAll : MonoBehaviour
-{
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+[Serializable]
+internal class ToolbarReserializeAll : BaseToolbarElement {
+	private static GUIContent reserializeAllBtn;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+	public ToolbarReserializeAll() {
+		reserializeAllBtn = EditorGUIUtility.IconContent("P4_Updating");
+		reserializeAllBtn.tooltip = "Reserialize All Assets";
+	}
+
+	protected override void OnDrawInList(Rect position) {
+
+	}
+
+	protected override void OnDrawInToolbar() {
+		if (GUILayout.Button(reserializeAllBtn, UnityToolbarExtender.ToolbarStyles.commandButtonStyle)) {
+			UnityToolbarExtender.ForceReserializeAssetsUtils.ForceReserializeAllAssets();
+		}
+	}
 }

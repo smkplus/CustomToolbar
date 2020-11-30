@@ -7,7 +7,7 @@ using UnityEditor;
 [Serializable]
 internal class ToolbarSides : BaseToolbarElement {
 	protected override void OnDrawInList(Rect position) {
-		position.x += position.width + space;
+		position.x += position.width + FieldSizeSpace;
 		position.width = 200.0f;
 		EditorGUI.LabelField(position, "Left side to up / Right side to bottom");
 	}

@@ -1,18 +1,25 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
-public class ToolbarReserializeSelected : MonoBehaviour
-{
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+[Serializable]
+internal class ToolbarReserializeSelected : BaseToolbarElement {
+	private static GUIContent reserializeSelectedBtn;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+	public ToolbarReserializeSelected() {
+		reserializeSelectedBtn = EditorGUIUtility.IconContent("Refresh");
+		reserializeSelectedBtn.tooltip = "Reserialize Selected Assets";
+	}
+
+	protected override void OnDrawInList(Rect position) {
+
+	}
+
+	protected override void OnDrawInToolbar() {
+		if (GUILayout.Button(reserializeSelectedBtn, UnityToolbarExtender.ToolbarStyles.commandButtonStyle)) {
+			UnityToolbarExtender.ForceReserializeAssetsUtils.ForceReserializeSelectedAssets();
+		}
+	}
 }

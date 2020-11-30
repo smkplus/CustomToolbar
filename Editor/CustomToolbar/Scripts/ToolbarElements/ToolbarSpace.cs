@@ -11,7 +11,7 @@ internal class ToolbarSpace : BaseToolbarElement {
 	}
 
 	protected override void OnDrawInList(Rect position) {
-		position.x += position.width + space;
+		position.x += position.width + FieldSizeSpace;
 		position.width = 200.0f;
 		EditorGUI.LabelField(position, "Empty space");
 	}

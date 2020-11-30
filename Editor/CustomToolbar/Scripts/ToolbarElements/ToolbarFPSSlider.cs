@@ -9,20 +9,28 @@ internal class ToolbarFPSSlider : BaseToolbarElement {
 	[SerializeField] int minFPS = 1;
 	[SerializeField] int maxFPS = 120;
 
-	int selectedFramerate;
+	int selectedFramerate = 60;
 
-	public ToolbarFPSSlider(int minFPS = 1, int maxFPS = 120) {
+	public ToolbarFPSSlider(int minFPS = 1, int maxFPS = 120) : base(200) {
 		this.minFPS = minFPS;
 		this.maxFPS = maxFPS;
 	}
 
 	protected override void OnDrawInList(Rect position) {
-		position.width = 200.0f;
-		minFPS = Mathf.RoundToInt(EditorGUI.IntField(position, "Min FPS", minFPS));
+		position.width = 70.0f;
+		EditorGUI.LabelField(position, "Min FPS");
 
-		position.x += position.width + space;
-		position.width = 200.0f;
-		maxFPS = Mathf.RoundToInt(EditorGUI.IntField(position, "Max FPS", maxFPS));
+		position.x += position.width + FieldSizeSpace;
+		position.width = 50.0f;
+		minFPS = Mathf.RoundToInt(EditorGUI.IntField(position, "", minFPS));
+
+		position.x += position.width + FieldSizeSpace;
+		position.width = 70.0f;
+		EditorGUI.LabelField(position, "Max FPS");
+
+		position.x += position.width + FieldSizeSpace;
+		position.width = 50.0f;
+		maxFPS = Mathf.RoundToInt(EditorGUI.IntField(position, "", maxFPS));
 	}
 
 	protected override void OnDrawInToolbar() {

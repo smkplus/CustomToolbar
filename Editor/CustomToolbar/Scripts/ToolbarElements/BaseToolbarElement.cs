@@ -7,12 +7,18 @@ using UnityEditor;
 
 [Serializable]
 abstract internal class BaseToolbarElement {
+	static protected string GetPackageRootPath {
+		get {
+			return "Packages/com.smkplus.custom-toolbar";
+		}
+	}
+
 	[SerializeField] protected bool IsEnabled = true;
 	[SerializeField] protected float WidthInToolbar;
 
-	protected const float space = 10.0f;
-	protected const float singleCharWidth = 7.0f;
-	protected const float width = 50.0f;
+	protected const float FieldSizeSpace = 10.0f;
+	protected const float FieldSizeSingleChar = 7.0f;
+	protected const float FieldSizeWidth = 50.0f;
 
 	public BaseToolbarElement() : this(100.0f) {
 
@@ -26,19 +32,19 @@ abstract internal class BaseToolbarElement {
 		position.y += 2;
 		position.height -= 4;
 
-		position.x += space;
+		position.x += FieldSizeSpace;
 		position.width = 15.0f;
 		IsEnabled = EditorGUI.Toggle(position, IsEnabled);
 
-		position.x += position.width + space;
-		position.width = singleCharWidth * 4;
+		position.x += position.width + FieldSizeSpace;
+		position.width = FieldSizeSingleChar * 4;
 		EditorGUI.LabelField(position, "Size");
 
-		position.x += position.width + space;
-		position.width = width;
+		position.x += position.width + FieldSizeSpace;
+		position.width = FieldSizeWidth;
 		WidthInToolbar = EditorGUI.IntField(position, (int)WidthInToolbar);
 
-		position.x += position.width + space;
+		position.x += position.width + FieldSizeSpace;
 
 		EditorGUI.BeginDisabledGroup(!IsEnabled);
 		OnDrawInList(position);

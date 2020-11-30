@@ -1,18 +1,30 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEditor;
+using UnityEditor.SceneManagement;
+using UnityToolbarExtender;
 
-public class ToolbarReloadScene : MonoBehaviour
-{
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+[Serializable]
+internal class ToolbarReloadScene : BaseToolbarElement {
+	private static GUIContent reloadSceneBtn;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+	public ToolbarReloadScene() {
+		reloadSceneBtn = new GUIContent((Texture2D)AssetDatabase.LoadAssetAtPath($"{GetPackageRootPath}/Editor/CustomToolbar/Icons/LookDevResetEnv@2x.png", typeof(Texture2D)), "Reload scene");
+	}
+
+	protected override void OnDrawInList(Rect position) {
+
+	}
+
+	protected override void OnDrawInToolbar() {
+		EditorGUIUtility.SetIconSize(new Vector2(17, 17));
+		if (GUILayout.Button(reloadSceneBtn, ToolbarStyles.commandButtonStyle)) {
+			if (EditorApplication.isPlaying) {
+				SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+			}
+		}
+	}
 }

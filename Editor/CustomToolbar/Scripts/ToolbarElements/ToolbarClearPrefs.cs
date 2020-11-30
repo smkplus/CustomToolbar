@@ -1,18 +1,27 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
+using UnityToolbarExtender;
 
-public class ToolbarClearPrefs : MonoBehaviour
-{
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+[Serializable]
+internal class ToolbarClearPrefs : BaseToolbarElement {
+	private static GUIContent clearPlayerPrefsBtn;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+	public ToolbarClearPrefs() {
+		clearPlayerPrefsBtn = EditorGUIUtility.IconContent("SaveFromPlay");
+		clearPlayerPrefsBtn.tooltip = "Clear player prefs";
+	}
+
+	protected override void OnDrawInList(Rect position) {
+
+	}
+
+	protected override void OnDrawInToolbar() {
+		if (GUILayout.Button(clearPlayerPrefsBtn, ToolbarStyles.commandButtonStyle)) {
+			PlayerPrefs.DeleteAll();
+			Debug.Log("Clear Player Prefs");
+		}
+	}
 }

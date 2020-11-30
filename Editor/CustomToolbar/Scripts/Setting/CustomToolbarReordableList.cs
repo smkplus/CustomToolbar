@@ -17,12 +17,29 @@ internal static class CustomToolbarReordableList {
 			// Probably reflection can helps
 			var menu = new GenericMenu();
 
+			menu.AddItem(new GUIContent("Left-Right side splitter"), false, menuItemHandler, new ToolbarSides());
+			menu.AddItem(new GUIContent("Space"), false, menuItemHandler, new ToolbarSpace());
+			menu.AddSeparator("");
+
 			menu.AddItem(new GUIContent("Time slider"), false, menuItemHandler, new ToolbarTimeslider());
 			menu.AddItem(new GUIContent("FPS slider"), false, menuItemHandler, new ToolbarFPSSlider());
 			menu.AddSeparator("");
 
-			menu.AddItem(new GUIContent("Left/Right side"), false, menuItemHandler, new ToolbarSides());
-			menu.AddItem(new GUIContent("Space"), false, menuItemHandler, new ToolbarSpace());
+			menu.AddItem(new GUIContent("ToolbarSceneSelection"), false, menuItemHandler, new ToolbarSceneSelection());
+			menu.AddItem(new GUIContent("ToolbarEnterPlayMode"), false, menuItemHandler, new ToolbarEnterPlayMode());
+			menu.AddSeparator("");
+
+			menu.AddItem(new GUIContent("ToolbarReloadScene"), false, menuItemHandler, new ToolbarReloadScene());
+			menu.AddItem(new GUIContent("ToolbarStartFromFirstScene"), false, menuItemHandler, new ToolbarStartFromFirstScene());
+			menu.AddSeparator("");
+
+			menu.AddItem(new GUIContent("ToolbarSavingPrefs"), false, menuItemHandler, new ToolbarSavingPrefs());
+			menu.AddItem(new GUIContent("ToolbarClearPrefs"), false, menuItemHandler, new ToolbarClearPrefs());
+			menu.AddSeparator("");
+
+			menu.AddItem(new GUIContent("ToolbarRecompile"), false, menuItemHandler, new ToolbarRecompile());
+			menu.AddItem(new GUIContent("ToolbarReserializeSelected"), false, menuItemHandler, new ToolbarReserializeSelected());
+			menu.AddItem(new GUIContent("ToolbarReserializeAll"), false, menuItemHandler, new ToolbarReserializeAll());
 			menu.AddSeparator("");
 
 			menu.ShowAsContext();

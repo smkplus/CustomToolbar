@@ -1,18 +1,26 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
-public class ToolbarRecompile : MonoBehaviour
-{
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+[Serializable]
+internal class ToolbarRecompile : BaseToolbarElement {
+	private static GUIContent recompileBtn;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+	public ToolbarRecompile() {
+		recompileBtn = EditorGUIUtility.IconContent("WaitSpin05");
+		recompileBtn.tooltip = "Recompile";
+	}
+
+	protected override void OnDrawInList(Rect position) {
+
+	}
+
+	protected override void OnDrawInToolbar() {
+		if (GUILayout.Button(recompileBtn, UnityToolbarExtender.ToolbarStyles.commandButtonStyle)) {
+			UnityEditor.Compilation.CompilationPipeline.RequestScriptCompilation();
+			Debug.Log("Recompile");
+		}
+	}
 }

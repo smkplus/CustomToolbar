@@ -9,18 +9,26 @@ internal class ToolbarTimeslider : BaseToolbarElement {
 	[SerializeField] float minTime = 1;
 	[SerializeField] float maxTime = 120;
 
-	public ToolbarTimeslider(float minTime = 0.0f, float maxTime = 10.0f) {
+	public ToolbarTimeslider(float minTime = 0.0f, float maxTime = 10.0f) : base(200) {
 		this.minTime = minTime;
 		this.maxTime = maxTime;
 	}
 
 	protected override void OnDrawInList(Rect position) {
-		position.width = 200.0f;
-		minTime = Mathf.RoundToInt(EditorGUI.FloatField(position, "Min Time", minTime));
+		position.width = 70.0f;
+		EditorGUI.LabelField(position, "Min Time");
 
-		position.x += position.width + space;
-		position.width = 200.0f;
-		maxTime = Mathf.RoundToInt(EditorGUI.FloatField(position, "Max Time", maxTime));
+		position.x += position.width + FieldSizeSpace;
+		position.width = 50.0f;
+		minTime = EditorGUI.FloatField(position, "", minTime);
+
+		position.x += position.width + FieldSizeSpace;
+		position.width = 70.0f;
+		EditorGUI.LabelField(position, "Max Time");
+
+		position.x += position.width + FieldSizeSpace;
+		position.width = 50.0f;
+		maxTime = EditorGUI.FloatField(position, "", maxTime);
 	}
 
 	protected override void OnDrawInToolbar() {
