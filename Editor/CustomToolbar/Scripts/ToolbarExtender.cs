@@ -31,7 +31,7 @@ namespace UnityToolbarExtender
 			ToolbarCallback.OnToolbarGUI += OnGUI;
 		}
 
-		static void OnGUI()
+		public static void OnGUI()
 		{
 			// Create two containers, left and right
 			// Screen is whole toolbar
