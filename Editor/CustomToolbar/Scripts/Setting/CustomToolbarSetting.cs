@@ -18,6 +18,30 @@ namespace UnityToolbarExtender
 			if (setting == null)
 			{
 				setting = ScriptableObject.CreateInstance<CustomToolbarSetting>();
+				//TODO: default setup in another ScriptableObject
+				setting.elements = new List<BaseToolbarElement>() {
+					new ToolbarEnterPlayMode(),
+					new ToolbarSceneSelection(),
+					new ToolbarSpace(),
+
+					new ToolbarSavingPrefs(),
+					new ToolbarClearPrefs(),
+					new ToolbarSpace(),
+
+					new ToolbarReloadScene(),
+					new ToolbarStartFromFirstScene(),
+					new ToolbarSpace(),
+
+					new ToolbarSides(),
+
+					new ToolbarTimeslider(),
+					new ToolbarFPSSlider(),
+					new ToolbarSpace(),
+
+					new ToolbarRecompile(),
+					new ToolbarReserializeSelected(),
+					new ToolbarReserializeAll(),
+				};
 
 				if (!Directory.Exists("Assets/Editor"))
 				{
