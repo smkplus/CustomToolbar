@@ -7,13 +7,20 @@ using UnityEditor;
 [Serializable]
 internal class ToolbarEnterPlayMode : BaseToolbarElement {
 #if UNITY_2019_3_OR_NEWER
-	static int selectedEnterPlayMode;
+	int selectedEnterPlayMode;
+	string[] enterPlayModeOption;
 #endif
 
 	public override string NameInList => "[Dropdown] Enter play mode option";
 
 	public override void Init() {
-
+		enterPlayModeOption = new[]{
+			"Disabled",
+			"Reload All",
+			"Reload Scene",
+			"Reload Domain",
+			"FastMode",
+		};
 	}
 
 	protected override void OnDrawInList(Rect position) {
@@ -22,22 +29,6 @@ internal class ToolbarEnterPlayMode : BaseToolbarElement {
 
 	protected override void OnDrawInToolbar() {
 #if UNITY_2019_3_OR_NEWER
-		DrawEnterPlayModeOption();
-#endif
-	}
-
-#if UNITY_2019_3_OR_NEWER
-	readonly string[] enterPlayModeOption = new[]
-	{
-			"Disabled",
-			"Reload All",
-			"Reload Scene",
-			"Reload Domain",
-			"FastMode",
-		};
-
-
-	void DrawEnterPlayModeOption() {
 		if (EditorSettings.enterPlayModeOptionsEnabled) {
 			EnterPlayModeOptions option = EditorSettings.enterPlayModeOptions;
 			selectedEnterPlayMode = (int)option + 1;
@@ -49,6 +40,6 @@ internal class ToolbarEnterPlayMode : BaseToolbarElement {
 			EditorSettings.enterPlayModeOptionsEnabled = selectedEnterPlayMode != 0;
 			EditorSettings.enterPlayModeOptions = (EnterPlayModeOptions)(selectedEnterPlayMode - 1);
 		}
-	}
 #endif
+	}
 }

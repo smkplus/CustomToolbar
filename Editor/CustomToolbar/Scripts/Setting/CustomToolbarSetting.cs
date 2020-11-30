@@ -38,10 +38,6 @@ namespace UnityToolbarExtender
 
 				AssetDatabase.CreateAsset(setting, SETTING_PATH);
 				AssetDatabase.SaveAssets();
-
-				foreach (var element in setting.elements) {
-					element.Init();
-				}
 			}
 
 			return setting;

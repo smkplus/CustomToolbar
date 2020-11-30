@@ -21,6 +21,7 @@ internal class ToolbarSceneSelection : BaseToolbarElement {
 
 	public override void Init() {
 		RefreshScenesList();
+		EditorSceneManager.sceneOpened -= HandleSceneOpened;
 		EditorSceneManager.sceneOpened += HandleSceneOpened;
 	}
 

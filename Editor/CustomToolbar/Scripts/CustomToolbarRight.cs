@@ -11,7 +11,10 @@ namespace UnityToolbarExtender {
 
 		static CustomToolbarRight() {
 			setting = CustomToolbarSetting.GetOrCreateSetting();
-			
+
+			foreach (var element in setting.elements)
+				element.Init();
+
 			ToolbarExtender.RightToolbarGUI.Add(OnToolbarGUI);
 		}
 
