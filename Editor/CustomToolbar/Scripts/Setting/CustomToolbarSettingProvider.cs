@@ -1,16 +1,18 @@
 ﻿using System.IO;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
+using UnityEditor;
+using UnityEditorInternal;
 
 namespace UnityToolbarExtender
 {
 	internal class CustomToolbarSettingProvider : SettingsProvider
 	{
-		private const int LEFT_VALUE = 1;
-		private const int RIGHT_VALUE = 999;
-		
 		private SerializedObject m_toolbarSetting;
+		private CustomToolbarSetting setting;
+
+		Vector2 scrollPos;
+		ReorderableList elementsList;
 
 		private class Styles
 		{
@@ -27,29 +29,37 @@ namespace UnityToolbarExtender
 			
 		}
 
+		public override void OnActivate(string searchContext, VisualElement rootElement) {
+			// base.OnActivate(searchContext, rootElement);
+			m_toolbarSetting = CustomToolbarSetting.GetSerializedSetting();
+			setting = (m_toolbarSetting.targetObject as CustomToolbarSetting);
+		}
+
 		public static bool IsSettingAvailable()
 		{
 			CustomToolbarSetting.GetOrCreateSetting();
 			return File.Exists(SETTING_PATH);;
 		}
 
-		public override void OnActivate(string searchContext, VisualElement rootElement)
-		{
-			// base.OnActivate(searchContext, rootElement);
-			m_toolbarSetting = CustomToolbarSetting.GetSerializedSetting();
-		}
-
 		public override void OnGUI(string searchContext)
 		{
 			base.OnGUI(searchContext);
 
-			EditorGUILayout.IntSlider(m_toolbarSetting.FindProperty("minFPS"), LEFT_VALUE, RIGHT_VALUE, Styles.minFPS);
-			EditorGUILayout.IntSlider(m_toolbarSetting.FindProperty("maxFPS"), LEFT_VALUE, RIGHT_VALUE, Styles.maxFPS);
+			scrollPos = EditorGUILayout.BeginScrollView(scrollPos);
 			
-			EditorGUILayout.PropertyField(m_toolbarSetting.FindProperty("limitFPS"), Styles.limitFPS);
+			elementsList = elementsList ?? CustomToolbarReordableList.Create(setting.elements, OnMenuItemAdd);
+			elementsList.DoLayoutList();
+
+			EditorGUILayout.EndScrollView();
 
 			m_toolbarSetting.ApplyModifiedProperties();
+			if(GUI.changed)
+				EditorUtility.SetDirty(m_toolbarSetting.targetObject);
+		}
 
+		private void OnMenuItemAdd(object target) {
+			setting.elements.Add(target as BaseToolbarElement);
+			m_toolbarSetting.ApplyModifiedProperties();
 		}
 
 		[SettingsProvider]

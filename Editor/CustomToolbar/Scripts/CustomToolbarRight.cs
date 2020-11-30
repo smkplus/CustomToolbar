@@ -31,28 +31,10 @@ namespace UnityToolbarExtender {
 		}
 
 		static void OnToolbarGUI() {
+			foreach (var element in setting.elements) {
+				element.DrawInToolbar();
+			}
 			
-			EditorGUILayout.LabelField("Time", GUILayout.Width(30));
-			Time.timeScale = EditorGUILayout.Slider("", Time.timeScale, 0f, 10f, GUILayout.Width(150));
-			GUILayout.Space(10);
-
-			if (setting != null && setting.limitFPS)
-			{
-				EditorGUILayout.LabelField("FPS", GUILayout.Width(30));
-				selectedFramerate = EditorGUILayout.IntSlider("", selectedFramerate, setting.minFPS, setting.maxFPS,
-					GUILayout.Width(150));
-				if (EditorApplication.isPlaying && selectedFramerate != Application.targetFrameRate)
-				{
-					Application.targetFrameRate = selectedFramerate;
-				}
-
-				GUILayout.Space(10);
-			}
-			else
-			{
-				GUILayout.Space(150 + 10 + 30 + 6);
-			}
-
 			DrawRecompileButton();
 			DrawReserializeSelected();
 			DrawReserializeAll();
