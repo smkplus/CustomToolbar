@@ -92,3 +92,9 @@ ____________
 Force reserialize all assets. Same as previous, but for all assets and takes some time. Use this after adding new asset or updating unity version in order to not spam git history with unwanted changes.
 
 ![image](Images~/btnReserializeAll.jpg)
+____________
+  
+You can customize the number of minimum FPS and maximum FPS on Project Setting
+
+![Images~/ProjectSetting-CustomToolbar.png](Images~/ProjectSetting-CustomToolbar.png)
+

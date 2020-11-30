@@ -26,6 +26,8 @@ namespace UnityToolbarExtender
 		private static GUIContent reloadSceneBtn;
 		private static GUIContent startFromFirstSceneBtn;
 
+		private static CustomToolbarSetting setting;
+
 		static SceneData[] scenesPopupDisplay;
 		static string[] scenesPath;
 		static string[] scenesBuildPath;
@@ -43,6 +45,9 @@ namespace UnityToolbarExtender
 #endif
 
 		static CustomToolbarLeft() {
+			
+			setting = CustomToolbarSetting.GetOrCreateSetting();
+			
 			ToolbarExtender.LeftToolbarGUI.Add(OnToolbarGUI);
 			EditorApplication.playModeStateChanged += LogPlayModeState;
 
