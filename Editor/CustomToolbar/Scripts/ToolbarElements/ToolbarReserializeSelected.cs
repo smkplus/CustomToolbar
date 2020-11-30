@@ -8,7 +8,9 @@ using UnityEditor;
 internal class ToolbarReserializeSelected : BaseToolbarElement {
 	private static GUIContent reserializeSelectedBtn;
 
-	public ToolbarReserializeSelected() {
+	public override string NameInList => "[Button] Reserialize selected";
+
+	public override void Init() {
 		reserializeSelectedBtn = EditorGUIUtility.IconContent("Refresh");
 		reserializeSelectedBtn.tooltip = "Reserialize Selected Assets";
 	}

@@ -9,6 +9,12 @@ internal class ToolbarTimeslider : BaseToolbarElement {
 	[SerializeField] float minTime = 1;
 	[SerializeField] float maxTime = 120;
 
+	public override string NameInList => "[Slider] Timescale";
+
+	public override void Init() {
+
+	}
+
 	public ToolbarTimeslider(float minTime = 0.0f, float maxTime = 10.0f) : base(200) {
 		this.minTime = minTime;
 		this.maxTime = maxTime;

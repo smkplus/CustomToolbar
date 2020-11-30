@@ -6,14 +6,18 @@ using UnityEditor;
 
 [Serializable]
 internal class ToolbarSpace : BaseToolbarElement {
+	public override string NameInList => $"[Empty space {WidthInToolbar} px]";
+
+	public override void Init() {
+
+	}
+
 	public ToolbarSpace(float width = 10.0f) : base(width) {
 
 	}
 
 	protected override void OnDrawInList(Rect position) {
-		position.x += position.width + FieldSizeSpace;
-		position.width = 200.0f;
-		EditorGUI.LabelField(position, "Empty space");
+	
 	}
 
 	protected override void OnDrawInToolbar() {

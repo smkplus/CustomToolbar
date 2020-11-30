@@ -11,7 +11,9 @@ using UnityToolbarExtender;
 internal class ToolbarStartFromFirstScene : BaseToolbarElement {
 	private static GUIContent startFromFirstSceneBtn;
 
-	public ToolbarStartFromFirstScene() {
+	public override string NameInList => "[Button] Start from first scene";
+
+	public override void Init() {
 		EditorApplication.playModeStateChanged += LogPlayModeState;
 
 		startFromFirstSceneBtn = new GUIContent((Texture2D)AssetDatabase.LoadAssetAtPath($"{GetPackageRootPath}/Editor/CustomToolbar/Icons/LookDevSingle1@2x.png", typeof(Texture2D)), "Start from 1 scene");

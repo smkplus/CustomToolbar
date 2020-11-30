@@ -10,6 +10,8 @@ using UnityEditor.SceneManagement;
 
 [Serializable]
 internal class ToolbarSceneSelection : BaseToolbarElement {
+	public override string NameInList => "[Dropdown] Scene selection";
+	
 	[SerializeField] bool showSceneFolder = true;
 
 	SceneData[] scenesPopupDisplay;
@@ -17,7 +19,7 @@ internal class ToolbarSceneSelection : BaseToolbarElement {
 	string[] scenesBuildPath;
 	int selectedSceneIndex;
 
-	public ToolbarSceneSelection() {
+	public override void Init() {
 		RefreshScenesList();
 		EditorSceneManager.sceneOpened += HandleSceneOpened;
 	}

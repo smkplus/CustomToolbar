@@ -6,10 +6,14 @@ using UnityEditor;
 
 [Serializable]
 internal class ToolbarSides : BaseToolbarElement {
+	public override string NameInList => "[Left-right splitter]";
+
+	public override void Init() {
+
+	}
+
 	protected override void OnDrawInList(Rect position) {
-		position.x += position.width + FieldSizeSpace;
-		position.width = 200.0f;
-		EditorGUI.LabelField(position, "Left side to up / Right side to bottom");
+		
 	}
 
 	protected override void OnDrawInToolbar() {

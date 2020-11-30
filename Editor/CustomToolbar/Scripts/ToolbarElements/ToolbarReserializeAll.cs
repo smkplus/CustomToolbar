@@ -8,7 +8,9 @@ using UnityEditor;
 internal class ToolbarReserializeAll : BaseToolbarElement {
 	private static GUIContent reserializeAllBtn;
 
-	public ToolbarReserializeAll() {
+	public override string NameInList => "[Button] Reserialize all";
+
+	public override void Init() {
 		reserializeAllBtn = EditorGUIUtility.IconContent("P4_Updating");
 		reserializeAllBtn.tooltip = "Reserialize All Assets";
 	}

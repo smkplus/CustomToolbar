@@ -10,6 +10,12 @@ internal class ToolbarEnterPlayMode : BaseToolbarElement {
 	static int selectedEnterPlayMode;
 #endif
 
+	public override string NameInList => "[Dropdown] Enter play mode option";
+
+	public override void Init() {
+
+	}
+
 	protected override void OnDrawInList(Rect position) {
 
 	}

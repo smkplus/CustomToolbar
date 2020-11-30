@@ -8,7 +8,9 @@ using UnityEditor;
 internal class ToolbarRecompile : BaseToolbarElement {
 	private static GUIContent recompileBtn;
 
-	public ToolbarRecompile() {
+	public override string NameInList => "[Button] Recompile";
+
+	public override void Init() {
 		recompileBtn = EditorGUIUtility.IconContent("WaitSpin05");
 		recompileBtn.tooltip = "Recompile";
 	}

@@ -13,6 +13,8 @@ abstract internal class BaseToolbarElement {
 		}
 	}
 
+	abstract public string NameInList { get; }
+
 	[SerializeField] protected bool IsEnabled = true;
 	[SerializeField] protected float WidthInToolbar;
 
@@ -21,7 +23,7 @@ abstract internal class BaseToolbarElement {
 	protected const float FieldSizeWidth = 50.0f;
 
 	public BaseToolbarElement() : this(100.0f) {
-
+		Init();
 	}
 
 	public BaseToolbarElement(float widthInToolbar) {
@@ -37,6 +39,10 @@ abstract internal class BaseToolbarElement {
 		IsEnabled = EditorGUI.Toggle(position, IsEnabled);
 
 		position.x += position.width + FieldSizeSpace;
+		position.width = 200.0f;
+		EditorGUI.LabelField(position, NameInList);
+
+		position.x += position.width + FieldSizeSpace;
 		position.width = FieldSizeSingleChar * 4;
 		EditorGUI.LabelField(position, "Size");
 
@@ -50,11 +56,13 @@ abstract internal class BaseToolbarElement {
 		OnDrawInList(position);
 		EditorGUI.EndDisabledGroup();
 	}
+
 	public void DrawInToolbar() {
 		if(IsEnabled)
 			OnDrawInToolbar();
 	}
 
+	virtual public void Init() { }
 
 	abstract protected void OnDrawInList(Rect position);
 	abstract protected void OnDrawInToolbar();

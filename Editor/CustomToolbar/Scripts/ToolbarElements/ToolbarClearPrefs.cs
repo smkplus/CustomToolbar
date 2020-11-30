@@ -9,7 +9,9 @@ using UnityToolbarExtender;
 internal class ToolbarClearPrefs : BaseToolbarElement {
 	private static GUIContent clearPlayerPrefsBtn;
 
-	public ToolbarClearPrefs() {
+	public override string NameInList => "[Button] Clear prefs";
+
+	public override void Init() {
 		clearPlayerPrefsBtn = EditorGUIUtility.IconContent("SaveFromPlay");
 		clearPlayerPrefsBtn.tooltip = "Clear player prefs";
 	}

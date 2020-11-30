@@ -11,7 +11,9 @@ internal class ToolbarSavingPrefs : BaseToolbarElement {
 	private static GUIContent saveActiveBtn;
 	private static bool _deleteKeys = false;
 
-	public ToolbarSavingPrefs() {
+	public override string NameInList => "[Button]Disable saving prefs";
+
+	public override void Init() {
 		_deleteKeys = false;
 
 		savePassiveBtn = EditorGUIUtility.IconContent("SavePassive");
