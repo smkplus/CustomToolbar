@@ -1,4 +1,6 @@
 ﻿using System.IO;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
@@ -7,11 +9,8 @@ namespace UnityToolbarExtender
 	internal class CustomToolbarSetting : ScriptableObject
 	{
 		const string SETTING_PATH = "Assets/Editor/Setting/CustomToolbarSetting.asset";
-		
-		[SerializeField] internal int minFPS = 1;
-		[SerializeField] internal int maxFPS = 120;
-		[SerializeField] internal bool limitFPS = true;
-		[SerializeField] internal string m_SomeString;
+
+		[SerializeReference] internal List<BaseToolbarElement> elements = new List<BaseToolbarElement>();
 
 		internal static CustomToolbarSetting GetOrCreateSetting()
 		{
@@ -19,9 +18,30 @@ namespace UnityToolbarExtender
 			if (setting == null)
 			{
 				setting = ScriptableObject.CreateInstance<CustomToolbarSetting>();
-				setting.minFPS = 1;
-				setting.maxFPS = 120;
-				setting.limitFPS = true;
+				//TODO: default setup in another ScriptableObject
+				setting.elements = new List<BaseToolbarElement>() {
+					new ToolbarEnterPlayMode(),
+					new ToolbarSceneSelection(),
+					new ToolbarSpace(),
+
+					new ToolbarSavingPrefs(),
+					new ToolbarClearPrefs(),
+					new ToolbarSpace(),
+
+					new ToolbarReloadScene(),
+					new ToolbarStartFromFirstScene(),
+					new ToolbarSpace(),
+
+					new ToolbarSides(),
+
+					new ToolbarTimeslider(),
+					new ToolbarFPSSlider(),
+					new ToolbarSpace(),
+
+					new ToolbarRecompile(),
+					new ToolbarReserializeSelected(),
+					new ToolbarReserializeAll(),
+				};
 
 				if (!Directory.Exists("Assets/Editor"))
 				{

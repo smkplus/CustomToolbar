@@ -12,8 +12,7 @@ namespace UnityToolbarExtender
 		static int m_toolCount;
 		static GUIStyle m_commandStyle = null;
 
-		public static readonly List<Action> LeftToolbarGUI = new List<Action>();
-		public static readonly List<Action> RightToolbarGUI = new List<Action>();
+		private static CustomToolbarSetting setting;
 
 		static ToolbarExtender()
 		{
@@ -29,9 +28,14 @@ namespace UnityToolbarExtender
 
 			ToolbarCallback.OnToolbarGUI -= OnGUI;
 			ToolbarCallback.OnToolbarGUI += OnGUI;
+
+			setting = CustomToolbarSetting.GetOrCreateSetting();
+
+			foreach (var element in setting.elements)
+				element.Init();
 		}
 
-		static void OnGUI()
+		public static void OnGUI()
 		{
 			// Create two containers, left and right
 			// Screen is whole toolbar
@@ -84,9 +88,13 @@ namespace UnityToolbarExtender
 			{
 				GUILayout.BeginArea(leftRect);
 				GUILayout.BeginHorizontal();
-				foreach (var handler in LeftToolbarGUI)
-				{
-					handler();
+
+				GUILayout.FlexibleSpace();
+
+				for (int i = 0; i < setting.elements.Count; ++i) {
+					if (setting.elements[i] is ToolbarSides)
+						break;
+					setting.elements[i].DrawInToolbar();
 				}
 
 				GUILayout.EndHorizontal();
@@ -97,10 +105,15 @@ namespace UnityToolbarExtender
 			{
 				GUILayout.BeginArea(rightRect);
 				GUILayout.BeginHorizontal();
-				foreach (var handler in RightToolbarGUI)
-				{
-					handler();
-				}
+
+				int i = 0;
+				for (; i < setting.elements.Count; ++i)
+					if (setting.elements[i] is ToolbarSides)
+						break;
+				for (++i; i < setting.elements.Count; ++i)
+					setting.elements[i].DrawInToolbar();
+
+				GUILayout.FlexibleSpace();
 
 				GUILayout.EndHorizontal();
 				GUILayout.EndArea();
