@@ -102,3 +102,22 @@ You can customize the toolbar on Project Setting
 
 ![Images~/ProjectSetting-CustomToolbar.png](Images~/ProjectSetting-CustomToolbar.png)
 
+_____
+
+## How to Contribute
+
+Development directory:
+
+1. Create a project through Unity Hub.
+2. clone repository at `Package` folder at root of project.
+3. edit codes with your IDE.
+
+![image](https://user-images.githubusercontent.com/51351749/100615833-8452ee00-335b-11eb-9b29-463810651ec7.png)
+
+![image](https://user-images.githubusercontent.com/51351749/100615844-8ae16580-335b-11eb-8a1e-4600bfe75454.png)
+
+![image](https://user-images.githubusercontent.com/51351749/100615856-8e74ec80-335b-11eb-97c5-a6ff2fb1dd8f.png)
+
+
+
+
