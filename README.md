@@ -11,11 +11,15 @@ based on this [marijnz unity-toolbar-extender](https://github.com/marijnz/unity-
 ### Why you should use the CustomToolbar?
 This custom tool helps you to test and develop your game easily
 
-## Installation
-
+## Installation 
 You can also install via git url by adding this entry in your **manifest.json**
 
 ```"com.smkplus.custom-toolbar": "https://github.com/smkplus/CustomToolbar.git#master",```
+
+## Installation through Unity-Package-Manager (2019.2+) 
+ * MenuItem - Window - Package Manager
+ * Add package from git url
+ * paste https://github.com/smkplus/CustomToolbar.git#master
 
 ## Sample scenes to test  
 You can import sample scenes from package manager. 
@@ -94,7 +98,7 @@ Force reserialize all assets. Same as previous, but for all assets and takes som
 ![image](Images~/btnReserializeAll.jpg)
 ____________
   
-You can customize the number of minimum FPS and maximum FPS on Project Setting
+You can customize the toolbar on Project Setting
 
 ![Images~/ProjectSetting-CustomToolbar.png](Images~/ProjectSetting-CustomToolbar.png)
 
