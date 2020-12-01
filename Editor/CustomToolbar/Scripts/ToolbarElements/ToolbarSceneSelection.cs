@@ -57,7 +57,7 @@ internal class ToolbarSceneSelection : BaseToolbarElement {
 
 		scenesBuildPath = EditorBuildSettings.scenes.Select(s => s.path).ToArray();
 
-		string[] sceneGuids = AssetDatabase.FindAssets("t:scene");
+		string[] sceneGuids = AssetDatabase.FindAssets("t:scene", new string[] { "Assets/" });
 		scenesPath = new string[sceneGuids.Length];
 		for (int i = 0; i < scenesPath.Length; ++i) {
 			scenesPath[i] = AssetDatabase.GUIDToAssetPath(sceneGuids[i]);
