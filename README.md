@@ -66,7 +66,7 @@ you have to find scene 1 (Menu):
 
 then you should start the game:
 
-![image](Images~/all.jpg)
+![image](https://user-images.githubusercontent.com/16706911/100723264-cd945380-33d6-11eb-9611-b1fe470dbd0b.png)
 
 this button is shortcut to start the game from scene 1:
 
