@@ -23,7 +23,7 @@ abstract internal class BaseToolbarElement {
 	protected const float FieldSizeWidth = 50.0f;
 
 	public BaseToolbarElement() : this(100.0f) {
-		Init();
+		//Init();
 	}
 
 	public BaseToolbarElement(float widthInToolbar) {
