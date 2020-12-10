@@ -16,6 +16,21 @@ namespace UnityToolbarExtender
 
 		static ToolbarExtender()
 		{
+			EditorApplication.update += Init;
+			EditorApplication.playModeStateChanged += OnChangePlayMode;
+		}
+
+		static void OnChangePlayMode(PlayModeStateChange state) {
+			if(state == PlayModeStateChange.EnteredPlayMode)
+				InitElements();
+		}	
+
+		static void Init() {
+			EditorApplication.update -= Init;
+			InitElements();
+		}
+
+		public static void InitElements() {
 #if UNITY_2020_1_OR_NEWER
 			Type toolbarType = typeof(Editor).Assembly.GetType("UnityEditor.UnityMainToolbar");
 #else
@@ -23,7 +38,7 @@ namespace UnityToolbarExtender
 #endif
 			FieldInfo toolIcons = toolbarType.GetField("s_ShownToolIcons",
 				BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static);
-			var array = ( Array ) toolIcons.GetValue( null );
+			var array = (Array)toolIcons.GetValue(null);
 			m_toolCount = array != null ? array.Length : 6;
 
 			ToolbarCallback.OnToolbarGUI -= OnGUI;
