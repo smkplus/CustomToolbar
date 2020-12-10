@@ -31,7 +31,9 @@ internal class ToolbarSceneSelection : BaseToolbarElement {
 	}
 
 	protected override void OnDrawInToolbar() {
+		EditorGUI.BeginDisabledGroup(EditorApplication.isPlaying);
 		DrawSceneDropdown();
+		EditorGUI.EndDisabledGroup();
 	}
 
 	private void DrawSceneDropdown() {
