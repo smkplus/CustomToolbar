@@ -31,15 +31,26 @@ namespace UnityToolbarExtender
 		}
 
 		public static void InitElements() {
-#if UNITY_2020_1_OR_NEWER
-			Type toolbarType = typeof(Editor).Assembly.GetType("UnityEditor.UnityMainToolbar");
+		Type toolbarType = typeof(Editor).Assembly.GetType("UnityEditor.Toolbar");
+
+#if UNITY_2019_1_OR_NEWER
+			string fieldName = "k_ToolCount";
 #else
-			Type toolbarType = typeof(Editor).Assembly.GetType("UnityEditor.Toolbar");
+			string fieldName = "s_ShownToolIcons";
 #endif
-			FieldInfo toolIcons = toolbarType.GetField("s_ShownToolIcons",
+
+			FieldInfo toolIcons = toolbarType.GetField(fieldName,
 				BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static);
-			var array = (Array)toolIcons.GetValue(null);
-			m_toolCount = array != null ? array.Length : 6;
+
+#if UNITY_2019_3_OR_NEWER
+			m_toolCount = toolIcons != null ? ((int) toolIcons.GetValue(null)) : 8;
+#elif UNITY_2019_1_OR_NEWER
+			m_toolCount = toolIcons != null ? ((int) toolIcons.GetValue(null)) : 7;
+#elif UNITY_2018_1_OR_NEWER
+			m_toolCount = toolIcons != null ? ((Array) toolIcons.GetValue(null)).Length : 6;
+#else
+			m_toolCount = toolIcons != null ? ((Array)toolIcons.GetValue(null)).Length : 5;
+#endif
 
 			ToolbarCallback.OnToolbarGUI -= OnGUI;
 			ToolbarCallback.OnToolbarGUI += OnGUI;
