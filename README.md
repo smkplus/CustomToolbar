@@ -3,6 +3,7 @@
 ![License: MIT](https://img.shields.io/badge/License-MIT-brightgreen.svg)
 
 based on this [marijnz unity-toolbar-extender](https://github.com/marijnz/unity-toolbar-extender). 
+Also avaliable on [Asset Store](https://assetstore.unity.com/packages/tools/utilities/custom-toolbar-189047?_ga=2.85412063.750031523.1612646196-741310434.1607024629). Please, review it to make it more popular
 
 ![image](https://user-images.githubusercontent.com/16706911/100000419-cff31e00-2dd6-11eb-9a4b-8379e3a7cc50.jpg)
 
