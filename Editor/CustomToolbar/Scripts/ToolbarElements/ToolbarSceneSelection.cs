@@ -68,6 +68,25 @@ internal class ToolbarSceneSelection : BaseToolbarElement {
 			AddScene(scenesBuildPath[i]);
 		}
 
+		//Scenes on Assets/Scenes/
+		isPlaceSeparator = false;
+		for (int i = 0; i < scenesPath.Length; ++i) {
+			if (scenesPath[i].Contains("Assets/Scenes")) {
+				PlaceSeperatorIfNeeded();
+				AddScene(scenesPath[i]);
+			}
+		}
+
+		//Scenes on Plugins/Plugins/
+		//Consider them as demo scenes from plugins
+		isPlaceSeparator = false;
+		for (int i = 0; i < scenesPath.Length; ++i) {
+			if (scenesPath[i].Contains("Assets/Plugins/")) {
+				PlaceSeperatorIfNeeded();
+				AddScene(scenesPath[i], "Plugins demo");
+			}
+		}
+
 		//All other scenes.
 		isPlaceSeparator = false;
 		for (int i = 0; i < scenesPath.Length; ++i) {
