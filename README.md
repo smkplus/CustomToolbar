@@ -12,15 +12,34 @@ Also avaliable on [Asset Store](https://assetstore.unity.com/packages/tools/util
 ### Why you should use the CustomToolbar?
 This custom tool helps you to test and develop your game easily
 
-## Installation 
-You can also install via git url by adding this entry in your **manifest.json**
+## Installation
+### (For Unity 2018.3 or later) Using OpenUPM  
+This package is available on [OpenUPM](https://openupm.com).  
+You can install it via [openupm-cli](https://github.com/openupm/openupm-cli).  
+```
+openupm add com.smkplus.customtoolbar
+```
 
-```"com.smkplus.custom-toolbar": "https://github.com/smkplus/CustomToolbar.git#master",```
-
-## Installation through Unity-Package-Manager (2019.2+) 
+### (For Unity 2019.2 or later) Through Unity Package Manager
  * MenuItem - Window - Package Manager
  * Add package from git url
- * paste https://github.com/smkplus/CustomToolbar.git#master
+ * paste ```https://github.com/smkplus/CustomToolbar.git#master```
+
+### (For Unity 2018.3 or later) Using Git
+Find the manifest.json file in the Packages folder of your project and add a line to `dependencies` field.
+`"com.smkplus.customtoolbar": "https://github.com/smkplus/CustomToolbar.git#master"`
+Or, use [UpmGitExtension](https://github.com/mob-sakai/UpmGitExtension) to install and update the package.
+
+### For Unity 2018.2 or earlier
+1. Download a source code zip this page
+2. Extract it
+3. Import it into the following directory in your Unity project
+   - `Packages` (It works as an embedded package. For Unity 2018.1 or later)
+   - `Assets` (Legacy way. For Unity 2017.1 or later)
+   
+### From Unity Asset Store
+1. https://assetstore.unity.com/packages/tools/utilities/custom-toolbar-189047
+2. Add it to project as usual
 
 ## Sample scenes to test  
 You can import sample scenes from package manager. 
