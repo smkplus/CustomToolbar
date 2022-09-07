@@ -10,7 +10,11 @@ namespace UnityToolbarExtender
     {
         static CustomToolbarInitializer()
         {
+#if UNITY_2020_3_OR_NEWER
+            CustomToolbarSetting setting = ScriptableSingleton<CustomToolbarSetting>.instance;
+#else
             CustomToolbarSetting setting = CustomToolbarSetting.GetOrCreateSetting();
+#endif
 
             setting.elements.ForEach(element => element.Init());
 

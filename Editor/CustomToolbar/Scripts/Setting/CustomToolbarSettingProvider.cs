@@ -1,4 +1,4 @@
-﻿using System.IO;
+using System.IO;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor;
@@ -22,11 +22,11 @@ namespace UnityToolbarExtender
 		}
 
 		private const string SETTING_PATH = "Assets/Editor/Setting/CustomToolbarSetting.asset";
-		
+
 		public CustomToolbarSettingProvider(string path, SettingsScope scopes = SettingsScope.User) : base(
 			path, scopes)
 		{
-			
+
 		}
 
 		public override void OnActivate(string searchContext, VisualElement rootElement) {
@@ -37,8 +37,12 @@ namespace UnityToolbarExtender
 
 		public static bool IsSettingAvailable()
 		{
+#if UNITY_2020_3_OR_NEWER
+            return ScriptableSingleton<CustomToolbarSetting>.instance != null;
+#else
 			CustomToolbarSetting.GetOrCreateSetting();
 			return File.Exists(SETTING_PATH);;
+#endif
 		}
 
 		public override void OnGUI(string searchContext)
@@ -56,12 +60,18 @@ namespace UnityToolbarExtender
 			if (GUI.changed) {
 				EditorUtility.SetDirty(m_toolbarSetting.targetObject);
 				ToolbarExtender.OnGUI();
+#if UNITY_2020_3_OR_NEWER
+                setting.Save();
+#endif
 			}
 		}
 
 		private void OnMenuItemAdd(object target) {
 			setting.elements.Add(target as BaseToolbarElement);
 			m_toolbarSetting.ApplyModifiedProperties();
+#if UNITY_2020_3_OR_NEWER
+            setting.Save();
+#endif
 		}
 
 		[SettingsProvider]
