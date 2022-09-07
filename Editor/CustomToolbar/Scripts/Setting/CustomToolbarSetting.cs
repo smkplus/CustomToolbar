@@ -6,6 +6,44 @@ using UnityEngine;
 
 namespace UnityToolbarExtender
 {
+#if UNITY_2020_3_OR_NEWER
+    [FilePath("ProjectSettings/CustomToolbarSetting.asset", FilePathAttribute.Location.ProjectFolder)]
+    internal class CustomToolbarSetting : ScriptableSingleton<CustomToolbarSetting> {
+        [SerializeReference] List<BaseToolbarElement> _elements = new() {
+            new ToolbarEnterPlayMode(),
+            new ToolbarSceneSelection(),
+            new ToolbarSpace(),
+
+            new ToolbarSavingPrefs(),
+            new ToolbarClearPrefs(),
+            new ToolbarSpace(),
+
+            new ToolbarReloadScene(),
+            new ToolbarStartFromFirstScene(),
+            new ToolbarSpace(),
+
+            new ToolbarSides(),
+
+            new ToolbarTimeslider(),
+            new ToolbarFPSSlider(),
+            new ToolbarSpace(),
+
+            new ToolbarRecompile(),
+            new ToolbarReserializeSelected(),
+            new ToolbarReserializeAll(),
+        };
+
+        internal List<BaseToolbarElement> elements => _elements;
+
+        internal static SerializedObject GetSerializedSetting() {
+            return new SerializedObject(instance);
+        }
+
+        internal void Save() {
+            Save(true);
+        }
+    }
+#else
 	internal class CustomToolbarSetting : ScriptableObject
 	{
 		const string SETTING_PATH = "Assets/Editor/Setting/CustomToolbarSetting.asset";
@@ -72,4 +110,5 @@ namespace UnityToolbarExtender
 			return new SerializedObject(GetOrCreateSetting());
 		}
 	}
+#endif
 }
