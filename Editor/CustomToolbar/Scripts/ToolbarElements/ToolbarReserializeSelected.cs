@@ -9,6 +9,7 @@ internal class ToolbarReserializeSelected : BaseToolbarElement {
 	private static GUIContent reserializeSelectedBtn;
 
 	public override string NameInList => "[Button] Reserialize selected";
+	public override int SortingGroup => 5;
 
 	public override void Init() {
 		reserializeSelectedBtn = EditorGUIUtility.IconContent("Refresh");

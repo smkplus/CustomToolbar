@@ -10,6 +10,7 @@ internal class ToolbarClearPrefs : BaseToolbarElement {
 	private static GUIContent clearPlayerPrefsBtn;
 
 	public override string NameInList => "[Button] Clear prefs";
+	public override int SortingGroup => 4;
 
 	public override void Init() {
 		clearPlayerPrefsBtn = EditorGUIUtility.IconContent("SaveFromPlay");

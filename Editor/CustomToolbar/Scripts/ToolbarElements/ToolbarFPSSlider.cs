@@ -12,6 +12,7 @@ internal class ToolbarFPSSlider : BaseToolbarElement {
 	int selectedFramerate;
 
 	public override string NameInList => "[Slider] FPS";
+	public override int SortingGroup => 1;
 
 	public override void Init() {
 		selectedFramerate = 60;

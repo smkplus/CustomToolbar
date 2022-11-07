@@ -6,7 +6,7 @@ using UnityToolbarExtender;
 using UnityEditor;
 
 [Serializable]
-abstract internal class BaseToolbarElement {
+abstract internal class BaseToolbarElement : IComparable<BaseToolbarElement> {
 	static protected string GetPackageRootPath {
 		get {
 			return "Packages/com.smkplus.custom-toolbar";
@@ -14,6 +14,7 @@ abstract internal class BaseToolbarElement {
 	}
 
 	abstract public string NameInList { get; }
+	virtual public int SortingGroup { get; }
 
 	[SerializeField] protected bool IsEnabled = true;
 	[SerializeField] protected float WidthInToolbar;
@@ -66,4 +67,9 @@ abstract internal class BaseToolbarElement {
 
 	abstract protected void OnDrawInList(Rect position);
 	abstract protected void OnDrawInToolbar();
+
+    public int CompareTo(BaseToolbarElement other)
+    {
+		return SortingGroup.CompareTo(other.SortingGroup);
+    }
 }

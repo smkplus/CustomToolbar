@@ -9,6 +9,7 @@ internal class ToolbarRecompile : BaseToolbarElement {
 	private static GUIContent recompileBtn;
 
 	public override string NameInList => "[Button] Recompile";
+	public override int SortingGroup => 5;
 
 	public override void Init() {
 		recompileBtn = EditorGUIUtility.IconContent("WaitSpin05");

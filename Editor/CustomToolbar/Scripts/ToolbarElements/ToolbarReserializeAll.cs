@@ -9,6 +9,7 @@ internal class ToolbarReserializeAll : BaseToolbarElement {
 	private static GUIContent reserializeAllBtn;
 
 	public override string NameInList => "[Button] Reserialize all";
+	public override int SortingGroup => 5;
 
 	public override void Init() {
 		reserializeAllBtn = EditorGUIUtility.IconContent("P4_Updating");
