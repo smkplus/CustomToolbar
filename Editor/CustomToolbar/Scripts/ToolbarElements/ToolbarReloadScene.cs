@@ -12,6 +12,7 @@ internal class ToolbarReloadScene : BaseToolbarElement {
 	private static GUIContent reloadSceneBtn;
 
 	public override string NameInList => "[Button] Reload scene";
+	public override int SortingGroup => 3;
 
 	public override void Init() {
 		reloadSceneBtn = new GUIContent((Texture2D)AssetDatabase.LoadAssetAtPath($"{GetPackageRootPath}/Editor/CustomToolbar/Icons/LookDevResetEnv@2x.png", typeof(Texture2D)), "Reload scene");

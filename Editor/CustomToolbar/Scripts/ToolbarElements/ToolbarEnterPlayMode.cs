@@ -12,6 +12,7 @@ internal class ToolbarEnterPlayMode : BaseToolbarElement {
 #endif
 
 	public override string NameInList => "[Dropdown] Enter play mode option";
+	public override int SortingGroup => 2;
 
 	public override void Init() {
 		enterPlayModeOption = new[]{

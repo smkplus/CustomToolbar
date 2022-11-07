@@ -12,6 +12,7 @@ internal class ToolbarStartFromFirstScene : BaseToolbarElement {
 	private static GUIContent startFromFirstSceneBtn;
 
 	public override string NameInList => "[Button] Start from first scene";
+	public override int SortingGroup => 3;
 
 	public override void Init() {
 		EditorApplication.playModeStateChanged += LogPlayModeState;

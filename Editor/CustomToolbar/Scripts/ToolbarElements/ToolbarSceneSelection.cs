@@ -11,6 +11,7 @@ using UnityEditor.SceneManagement;
 [Serializable]
 internal class ToolbarSceneSelection : BaseToolbarElement {
 	public override string NameInList => "[Dropdown] Scene selection";
+	public override int SortingGroup => 2;
 
 	[SerializeField] bool showSceneFolder = true;
 
