@@ -26,20 +26,27 @@ internal class ToolbarStartFromFirstScene : BaseToolbarElement {
 	protected override void OnDrawInToolbar() {
 		if (GUILayout.Button(startFromFirstSceneBtn, ToolbarStyles.commandButtonStyle)) {
 			if (!EditorApplication.isPlaying) {
-				EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo();
-				EditorPrefs.SetInt("LastActiveSceneToolbar", EditorSceneManager.GetActiveScene().buildIndex);
+				if(!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())
+				{
+					EditorApplication.isPlaying = false;
+					return;
+				}
+				SessionState.SetString(LastActiveSceneToolbar, EditorSceneManager.GetActiveScene().path);
 				EditorSceneManager.OpenScene(SceneUtility.GetScenePathByBuildIndex(0));
 			}
 
 			EditorApplication.isPlaying = !EditorApplication.isPlaying;
 		}
 	}
-
-	private static void LogPlayModeState(PlayModeStateChange state) {
-		if (state == PlayModeStateChange.EnteredEditMode && EditorPrefs.HasKey("LastActiveSceneToolbar")) {
-			EditorSceneManager.OpenScene(
-				SceneUtility.GetScenePathByBuildIndex(EditorPrefs.GetInt("LastActiveSceneToolbar")));
-			EditorPrefs.DeleteKey("LastActiveSceneToolbar");
+	
+	private const string LastActiveSceneToolbar = "LastActiveSceneToolbar";
+	private static void LogPlayModeState(PlayModeStateChange state)
+	{
+		if (state == PlayModeStateChange.EnteredEditMode)
+		{
+			if(string.IsNullOrWhiteSpace(SessionState.GetString(LastActiveSceneToolbar,string.Empty))) return;
+			EditorSceneManager.OpenScene(SessionState.GetString(LastActiveSceneToolbar,string.Empty));
+			SessionState.EraseString(LastActiveSceneToolbar);
 		}
 	}
 }
