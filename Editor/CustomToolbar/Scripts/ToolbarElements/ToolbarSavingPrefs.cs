@@ -12,6 +12,7 @@ internal class ToolbarSavingPrefs : BaseToolbarElement {
 	private static bool _deleteKeys = false;
 
 	public override string NameInList => "[Button]Disable saving prefs";
+	public override int SortingGroup => 4;
 
 	public override void Init() {
 		_deleteKeys = false;
