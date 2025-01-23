@@ -9,14 +9,21 @@ internal class ToolbarTimeslider : BaseToolbarElement {
 	[SerializeField] float minTime = 1;
 	[SerializeField] float maxTime = 120;
 
-	public override string NameInList => "[Slider] Timescale";
+    bool defaultSetOnce;
+    float selectedTimeScale;
+
+    public override string NameInList => "[Slider] Timescale";
 	public override int SortingGroup => 1;
 
 	public override void Init() {
+		if (!defaultSetOnce)
+		{
+			defaultSetOnce = true;
+			selectedTimeScale = 1;
+        }
+    }
 
-	}
-
-	public ToolbarTimeslider(float minTime = 0.0f, float maxTime = 10.0f) : base(200) {
+	public ToolbarTimeslider(float minTime = 0f, float maxTime = 10.0f) : base(200) {
 		this.minTime = minTime;
 		this.maxTime = maxTime;
 	}
@@ -40,6 +47,8 @@ internal class ToolbarTimeslider : BaseToolbarElement {
 
 	protected override void OnDrawInToolbar() {
 		EditorGUILayout.LabelField("Time", GUILayout.Width(30));
-		Time.timeScale = EditorGUILayout.Slider("", Time.timeScale, minTime, maxTime, GUILayout.Width(WidthInToolbar - 30.0f));
-	}
+        selectedTimeScale = EditorGUILayout.Slider("", selectedTimeScale, minTime, maxTime, GUILayout.Width(WidthInToolbar - 30.0f));
+        if (EditorApplication.isPlaying && selectedTimeScale != Time.timeScale)
+            Time.timeScale = selectedTimeScale;
+    }
 }
